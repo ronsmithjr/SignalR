@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<!-- saved from url=(0111)https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr -->
+<html class="hasSidebar hasPageActions hasBreadcrumb conceptual has-default-focus js-focus-visible theme-light" lang="en-us" dir="ltr" data-css-variable-support="true" data-authenticated="false" data-auth-status-determined="true" data-target="docs" x-ms-format-detection="none"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:title" content="Tutorial: Server broadcast with SignalR 2">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr">
+		<meta property="og:description" content="This tutorial shows how to create a web application that uses ASP.NET SignalR 2 to provide server broadcast functionality.">
+		<meta property="og:image" content="https://docs.microsoft.com/en-us/media/logos/logo-ms-social.png">
+		<meta property="og:image:alt" content="Microsoft Logo">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@docsmsft">
+
+		<meta name="breadcrumb_path" content="/aspnet/breadcrumb/toc.json">
+<meta name="ms.topic" content="tutorial">
+<meta name="ms.technology" content="aspnet-signalr">
+<meta name="ms.prod" content="aspnet-framework">
+<meta name="uhfHeaderId" content="MSDocsHeader-DotNet">
+<meta name="msc.legacyurl" content="/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr">
+<meta name="ms.assetid" content="1568247f-60b5-4eca-96e0-e661fbb2b273">
+<meta name="msc.type" content="authoredcontent">
+<meta name="author" content="tdykstra">
+<meta name="description" content="This tutorial shows how to create a web application that uses ASP.NET SignalR 2 to provide server broadcast functionality.">
+<meta name="ms.author" content="bradyg">
+<meta name="uid" content="signalr/overview/getting-started/tutorial-server-broadcast-with-signalr">
+<meta name="ms.date" content="01/02/2019">
+<meta name="search.ms_sitename" content="Docs">
+<meta name="search.ms_docsetname" content="AspNetDocs">
+<meta name="version" content="0">
+<meta name="locale" content="en-us">
+<meta name="site_name" content="Docs">
+<meta name="search.ms_product" content="MSDN">
+<meta name="depot_name" content="MSDN.AspNetDocs">
+<meta name="updated_at" content="2019-05-06 06:26 PM">
+<meta name="gitcommit" content="https://github.com/aspnet/AspNetDocs/blob/3d082305c7728c5da544298c450976d3f1d2e4f9/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr.md">
+<meta name="original_content_git_url" content="https://github.com/aspnet/AspNetDocs/blob/live/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr.md">
+<meta name="document_id" content="6fe1fa03-8e5e-452c-4e7d-9dd441a6937d">
+<meta name="document_version_independent_id" content="59f15883-bea8-001d-e229-44f319e844d1">
+<meta name="page_type" content="conceptual">
+<meta name="toc_rel" content="../../../toc.json">
+<meta name="pdf_url_template" content="https://docs.microsoft.com/pdfstore/en-us/MSDN.AspNetDocs/{branchName}{pdfName}">
+<meta name="word_count" content="5340">
+
+	<meta name="scope" content="ASP.NET">
+<link href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr" rel="canonical">
+	<title>Tutorial: Server broadcast with SignalR 2 | Microsoft Docs</title>
+
+		<link rel="stylesheet" href="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/b66bc881.site-ltr.css">
+
+	<link rel="stylesheet" href="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/b8d322.conceptual.css">
+
+
+	<script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/analytics.js.download"></script><script>
+	var msDocs = {
+		data: {
+			timeOrigin: Date.now(),
+			azureHeaderLocale: 'en-us',
+			contentLocale: 'en-us',
+			contentDir: 'ltr',
+			userLocale: 'en-us',
+			userDir: 'ltr',
+			pageTemplate: 'Conceptual',
+			brand: '',
+			context: {
+
+			},
+			hasComments: false,
+			feedbackSystem: 'None',
+			feedbackGitHubRepo: '',
+			feedbackProductUrl: '',
+			contentGitUrl: 'https://github.com/aspnet/AspNetDocs/blob/master/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr.md',
+			extendBreadcrumb: false,
+		},
+		functions:{}
+	};
+	if (!('Promise' in window && 'resolve' in window.Promise && 'reject' in window.Promise && 'all' in window.Promise && 'race' in window.Promise)) {
+		document.write('<script src="https://static.docs.com/ui/third-party/bluebird/3.5.0/bluebird.min.js" integrity="sha384-aD4BDeDGeLXLpPK4yKeqtZQa9dv4a/7mQ+4L5vwshIYH1Mc2BrXvHd32iHzYCQy5" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof fetch !== 'function') {
+		document.write('<script src="https://static.docs.com/ui/third-party/fetch/2.0.3/fetch.min.js" integrity="sha384-H3LQq82b6Mm80GYRHtRSlTwO9DoXctmYCVEYk9M8mp97lRzs6DuSrHVUg3SBP9w0" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof HTMLTemplateElement === 'undefined') {
+		document.write('<script src="https://static.docs.com/ui/third-party/template/1.4.0/template.min.js" integrity="sha384-1zKzI6ldTVHMU7n0W2HpE/lhHI+UG4D9IIaxbj3kT2UhCWicdTuJkTtnKuu0CQzN" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof URL !== 'function') {
+		document.write('<script src="https://static.docs.com/ui/third-party/url/0.5.7/url.min.js" integrity="sha384-vn7xBMtpSTfzaTRWxj0kVq0UcsbBrTOgZ/M1ISHqe1V358elYva+lfiEC+T8jLPc" crossorigin="anonymous"><\/script>');
+	}
+	</script>
+
+	<script src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/jquery-3.3.1.min.js.download" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+		<script src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/43a9dd38.index-docs.js.download"></script><style></style><script src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/jsll-4.js.download" async="" defer=""></script>
+
+<script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js.download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(1).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(2).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(3).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(4).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(5).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(6).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(7).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(8).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(9).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(10).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(11).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(12).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(13).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(14).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(15).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(16).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(17).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(18).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(19).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(20).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(21).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(22).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(23).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(24).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(25).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(26).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(27).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(28).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(29).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(30).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(31).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(32).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(33).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(34).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(35).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(36).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(37).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(38).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(39).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(40).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(41).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(42).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(43).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(44).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(45).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(46).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(47).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(48).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(49).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(50).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(51).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(52).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(53).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(54).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(55).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(56).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(57).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(58).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(59).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(60).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(61).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(62).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(63).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(64).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(65).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(66).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(67).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(68).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(69).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(70).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(71).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(72).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(73).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(74).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(75).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(76).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(77).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(78).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(79).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(80).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(81).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(82).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(83).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(84).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(85).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(86).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(87).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(88).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(89).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(90).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(91).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(92).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(93).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(94).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(95).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(96).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(97).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(98).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(99).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(100).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(101).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(102).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(103).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(104).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(105).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(106).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(107).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(108).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(109).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(110).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(111).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(112).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(113).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(114).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(115).download"></script><script async="" src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/t.js(116).download"></script><script async="" src="https://web.vortex.data.microsoft.com/collect/v1/t.js?ver=%272.1%27&amp;name=%27Ms.Webi.ContentUpdate%27&amp;time=%272019-10-26T21%3A37%3A02.198Z%27&amp;os=%27Windows%27&amp;appId=%27JS%3ADocs%27&amp;-ver=%271.0%27&amp;-impressionGuid=%2782c06e03-4bd6-4a33-8228-36fbfa2aa284%27&amp;-pageName=%276fe1fa03-8e5e-452c-4e7d-9dd441a6937d%27&amp;-uri=%27https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-server-broadcast-with-signalr%27&amp;-market=%27en-us%27&amp;-pageTags=%27%7B%22pgtop%22%3A%22tutorial%22%2C%22technology%22%3A%22aspnet-signalr%22%2C%22product%22%3A%22aspnet-framework%22%2C%22asst%22%3A%221568247f-60b5-4eca-96e0-e661fbb2b273%22%2C%22author%22%3A%22tdykstra%22%2C%22pgauth%22%3A%22bradyg%22%2C%22date%22%3A%2201%2F02%2F2019%22%2C%22depotname%22%3A%22MSDN.AspNetDocs%22%2C%22publishtime%22%3A%222019-05-06%2006%3A26%20PM%22%2C%22gitcommit%22%3A%22https%3A%2F%2Fgithub.com%2Faspnet%2FAspNetDocs%2Fblob%2F3d082305c7728c5da544298c450976d3f1d2e4f9%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-server-broadcast-with-signalr.md%22%2C%22giturl%22%3A%22https%3A%2F%2Fgithub.com%2Faspnet%2FAspNetDocs%2Fblob%2Flive%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-server-broadcast-with-signalr.md%22%2C%22document_version_independent_id%22%3A%2259f15883-bea8-001d-e229-44f319e844d1%22%2C%22contentlocale%22%3A%22en-us%22%2C%22highContrast%22%3A%22false%22%2C%22metaTags%22%3A%7B%7D%7D%27&amp;-pageHeight=31180&amp;-vpHeight=678&amp;-vpWidth=1200&amp;-actionType=%27R%27&amp;-behavior=0&amp;-vScrollOffset=27581&amp;-hScrollOffset=0&amp;-contentVer=%272.0%27&amp;-content=%27%5B%5D%27&amp;*baseType=%27Ms.Content.ContentUpdate%27&amp;*title=%27Tutorial%3A%20Server%20broadcast%20with%20SignalR%202%20%7C%20Microsoft%20Docs%27&amp;*cookieEnabled=true&amp;*isJs=true&amp;*isDomComplete=false&amp;*isLoggedIn=false&amp;ext-javascript-ver=%271.1%27&amp;ext-javascript-libVer=%274.2.14%27&amp;ext-javascript-domain=%27docs.microsoft.com%27&amp;ext-javascript-msfpc=%27GUID%3D6547be4f79ef437b9695af3ce7c5a83f%26HASH%3D6547%26LV%3D201908%26V%3D4%26LU%3D1565218891178%27&amp;ext-javascript-userConsent=false&amp;ext-javascript-anid=%27A%3DD7B362B5DDF68541A8112D53FFFFFFFF%27&amp;ext-user-localId=%27t%3A3A187942036A6E072A257506076A6D94%27&amp;$mscomCookies=false"></script></head>
+
+<body lang="en-us" dir="ltr">
+<div class="header-holder has-default-focus">
+	<a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#main" class="skip-to-main-link visually-hidden-until-focused is-fixed has-inner-focus focus-visible has-top-zero has-left-zero has-right-zero has-padding-medium has-text-centered has-body-background-medium" tabindex="1">Skip to main content</a>
+		<div id="headerAreaHolder" data-bi-name="header"><!----><!----><header class="nav-bar" role="banner" itemscope="itemscope" itemtype="http://schema.org/Organization"><!---->
+		
+		<button class="nav-bar-burger" aria-label="Global navigation" aria-controls="ax-32" aria-expanded="false">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+		<nav class="nav-bar-mobile-nav" role="navigation" id="ax-32" aria-label="Global" hidden="">
+			<ul class="nav-bar-mobile-nav-list">
+				<!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/"><!---->.NET<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet"><!---->About<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn"><!---->Learn<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides"><!---->Architecture<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://docs.microsoft.com/dotnet"><!---->Docs<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/download"><!---->Downloads<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/platform/community"><!---->Community<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro"><!---->Get Started<!----></a>
+		</li><!---->
+			</ul>
+		</nav>
+		
+		<a class="nav-bar-button" itemprop="url" href="https://www.microsoft.com/" aria-label="Microsoft">
+			<div class="nav-bar-logo has-background-image theme-display is-light" role="presentation" aria-hidden="true" itemprop="logo" itemscope="itemscope"></div>
+			<div class="nav-bar-logo has-background-image theme-display is-dark is-high-contrast" role="presentation" aria-hidden="true" itemprop="logo" itemscope="itemscope"></div>
+		</a>
+		<nav class="nav-bar-nav" role="navigation" aria-label="Global">
+			<ul class="nav-bar-nav-list">
+				
+		<li class="nav-bar-item is-category has-spacing">
+			<a class="nav-bar-button title has-hover-underline is-4" itemprop="url" href="https://dotnet.microsoft.com/">
+				<span><!---->.NET<!----></span>
+			</a>
+		</li>
+				<!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet">
+				<span><!---->About<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn">
+				<span><!---->Learn<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides">
+				<span><!---->Architecture<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://docs.microsoft.com/dotnet">
+				<span><!---->Docs<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/download">
+				<span><!---->Downloads<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/platform/community">
+				<span><!---->Community<!----></span>
+			</a>
+		</li><!---->
+		<li class="dropdown nav-bar-item" hidden="">
+			<button aria-expanded="false" class="dropdown-trigger nav-bar-button has-hover-underline" aria-controls="ax-33">
+				<span><!---->More<!----></span>
+				<span class="nav-bar-button-chevron" aria-hidden="true">
+					<span class="docon docon-chevron-down-light expanded-indicator"></span>
+				</span>
+			</button>
+			<ul class="dropdown-menu" id="ax-33" aria-label="More">
+				<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet"><!---->About<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn"><!---->Learn<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides"><!---->Architecture<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://docs.microsoft.com/dotnet"><!---->Docs<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/download"><!---->Downloads<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/platform/community"><!---->Community<!----></a>
+		</li>
+	<!---->
+			</ul>
+		</li><!---->
+				
+		<li class="nav-bar-item has-spacing">
+			<a class="button is-small is-primary is-outlined" href="https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro">
+				Get Started
+			</a>
+		</li>
+			</ul>
+		</nav>
+		<span class="nav-bar-spacer"></span>
+		
+			<div class="nav-bar-item nav-bar-search-form-item" id="ax-34" hidden="">
+				
+			<form class="is-flex" method="GET" id="searchForm" name="searchForm" role="search" aria-label="Search" aria-expanded="false" action="https://docs.microsoft.com/en-us/search/">
+					
+							<button class="nav-bar-button has-margin-extra-small tag" type="button" aria-label="Search filter is &quot;ASP.NET&quot;. Tap to remove.">
+								<span class="is-inline-truncated"><!---->ASP.NET<!----></span>
+								<span class="icon">
+									<span class="docon docon-navigate-close" aria-hidden="true"></span>
+								</span>
+							</button>
+					<div class="autocomplete" data-bi-name="autocomplete"><!---->
+		<div class="control ">
+			<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="site-search-input" class="autocomplete-input input   is-full-width" type="search" name="search" aria-expanded="false" aria-owns="ax-35-listbox" aria-activedescendant="" placeholder="Search">
+
+			<span class="icon is-small is-left" aria-hidden="true" hidden="">
+				<span class="has-text-primary docon docon-undefined"></span>
+			</span>
+
+			<span class="autocomplete-loader loader has-text-primary" aria-hidden="true" hidden=""></span>
+		</div>
+
+		<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-35-listbox" hidden="">
+			
+		</ul><!----></div>
+					<!-- mobile safari will not dispatch submit event unless there's a submit button that is not display:none -->
+					<button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true"></button>
+					<input name="category" hidden="" value="All">
+					<input name="scope" hidden="" value="ASP.NET">
+					
+			</form>
+		
+			</div>
+			<div class="nav-bar-item ">
+				<button id="form-expander" class="nav-bar-button has-hover-underline has-margin-left-extra-small" aria-label="Search" aria-expanded="false" aria-controls="ax-34">
+						
+					<span class="is-hidden-mobile" aria-hidden="true"><!---->Search<!----></span>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-search"></span>
+					</span>
+	
+				</button>
+			</div>
+		<!----><!----></header></div>
+		<div class="content-header uhf-container has-padding has-default-focus" data-bi-name="content-header">
+		<nav class="has-padding-none-mobile" data-bi-name="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList" role="navigation" aria-label="Breadcrumb">
+			<ul id="page-breadcrumbs" class="breadcrumbs"><!---->
+		<!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/">
+				<span itemprop="name">
+					Docs
+				</span>
+			</a>
+			<meta itemprop="position" content="1">
+		</li><!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/aspnet/">
+				<span itemprop="name">
+					ASP.<wbr>NET
+				</span>
+			</a>
+			<meta itemprop="position" content="2">
+		</li><!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/aspnet/signalr/">
+				<span itemprop="name">
+					ASP.<wbr>NET SignalR
+				</span>
+			</a>
+			<meta itemprop="position" content="3">
+		</li><!---->
+	<!----></ul>
+		</nav>
+		<div class="content-header-controls">
+			<button type="button" class="contents-button button" data-bi-name="contents-expand" aria-haspopup="true">
+				<span class="icon"><span class="docon docon-menu" aria-hidden="true"></span></span>
+				<span>Contents</span>
+			</button>
+		</div>
+		<div class="content-header-controls exit-focus">
+			<button type="button" class="ap-collapse-behavior ap-expanded button" data-bi-name="ap-collapse" aria-controls="action-panel">
+				<span class="icon"><span class="docon docon-exit-mode" aria-hidden="true"></span></span>
+				<span>Exit focus mode</span>
+			</button>
+		</div>
+		<div id="page-actions" class="is-flex-touch has-flex-justify-content-space-between-touch has-padding-none has-padding-none-mobile">
+			<ul class="action-list has-flex-justify-content-start-mobile is-flex is-flex-row has-flex-wrap">
+				<li>
+					<button type="button" class="bookmark button is-text has-inner-focus is-small is-icon-only-touch" data-list-type="bookmarks" data-bi-name="bookmark" aria-pressed="false" aria-label="Add bookmark for Tutorial: Server broadcast with SignalR 2 | Microsoft Docs">
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-single-bookmark"></span>
+						</span>
+						<span class="bookmark-status is-visually-hidden-touch is-hidden-portrait">Bookmark</span>
+					</button>
+				</li>
+							<li id="contenteditbtn">
+									<a href="https://github.com/aspnet/AspNetDocs/blob/master/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr.md" class="button is-text has-inner-focus is-icon-only-touch is-small" title="Edit This Document" data-bi-name="edit" data-original_content_git_url="https://github.com/aspnet/AspNetDocs/blob/live/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr.md" data-original_content_git_url_template="" data-pr_repo="" data-pr_branch="">
+									<span class="icon">
+										<span class="docon docon-edit-outline" aria-hidden="true"></span>
+									</span>
+									<span class="is-visually-hidden-touch is-hidden-portrait">Edit</span>
+								</a>
+							</li>
+				<li>
+<div class="sharing dropdown has-caret">
+	<button class="dropdown-trigger button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small is-icon-only-touch" aria-controls="sharing-menu" aria-expanded="false" title="Share This Document" data-bi-name="share">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-sharing"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Share</span>
+	</button>
+	<div class="dropdown-menu has-padding-small" id="sharing-menu">
+		<ul data-bi-name="share-links">
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-twitter" data-bi-name="twitter" href="https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-server-broadcast-with-signalr%3FWT.mc_id%3Dtwitter&amp;text=Tutorial%3A%20Server%20broadcast%20with%20SignalR%202%20%7C%20Microsoft%20Docs&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-server-broadcast-with-signalr%3FWT.mc_id%3Dtwitter">
+					<span class="icon">
+						<span class="docon docon-brand-twitter has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Twitter</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-linkedin" data-bi-name="linkedin" href="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-server-broadcast-with-signalr%3FWT.mc_id%3Dlinkedin">
+					<span class="icon">
+						<span class="docon docon-brand-linkedin has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>LinkedIn</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-facebook" data-bi-name="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-server-broadcast-with-signalr%3FWT.mc_id%3Dfacebook">
+					<span class="icon">
+						<span class="docon docon-brand-facebook has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Facebook</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-email" data-bi-name="email" href="mailto:?subject=%5BShared%20Article%5D%20Tutorial%3A%20Server%20broadcast%20with%20SignalR%202%20%7C%20Microsoft%20Docs&amp;body=Tutorial%3A%20Server%20broadcast%20with%20SignalR%202%20%7C%20Microsoft%20Docs%0A%0Ahttps%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-server-broadcast-with-signalr%3FWT.mc_id%3Demail">
+					<span class="icon">
+						<span class="docon docon-mail-message-fill has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Email</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>				</li>
+				<li>
+<div class="dropdown has-caret">
+	<button class="dropdown-trigger button is-text is-small is-icon-only-touch has-inner-focus" aria-controls="theme-menu" aria-expanded="false" title="Theme" data-bi-name="theme">
+		<span class="icon">
+			<span class="docon docon-sun" aria-hidden="true"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Theme</span>
+	</button>
+	<div class="dropdown-menu" id="theme-menu" role="menu">
+		<div class="theme-selector has-padding-small">
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start is-selected" data-theme-to="light" role="menuitem" aria-selected="true">
+					<span class="theme-light has-margin-right-small">
+						<span class="theme-selector-icon css-variable-support has-border is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+Light					</span>
+				</button>
+			</div>
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start" data-theme-to="dark" role="menuitem" aria-selected="false">
+					<span class="theme-dark has-margin-right-small">
+						<span class="has-border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+Dark					</span>
+				</button>
+			</div>
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start" data-theme-to="high-contrast" role="menuitem" aria-selected="false">
+					<span class="theme-high-contrast has-margin-right-small">
+						<span class="has-border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+High contrast					</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>				</li>
+				<li>
+					<a class="docs-sign-in auth-status-determined not-authenticated button is-text has-inner-focus has-text-primary is-small" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#">Sign in</a>
+					<div class="dropdown has-caret auth-status-determined authenticated">
+						<button class="dropdown-trigger button is-text has-inner-focus is-small is-icon-only-touch has-inner-focus" aria-label="Your Account" aria-controls="user-menu" aria-expanded="false">
+							<span class="icon" aria-hidden="true">
+								<span class="image">
+									<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+								</span>
+							</span>
+							<span class="is-inline-truncated has-margin-left-small" data-profile-property="userName"></span>
+						</button>
+						<div class="dropdown-menu box" id="user-menu" role="menu">
+							<div class="media is-user-dir">
+								<div class="media-left">
+									<span class="image is-64x64" aria-hidden="true">
+										<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+									</span>
+								</div>
+								<div class="media-content">
+									<p class="title">
+										<span class="is-inline-truncated" style="max-width: 200px" data-profile-property="userName"></span>
+									</p>
+									<p class="subtitle has-margin-bottom-none">
+										<span class="is-inline-truncated" style="max-width: 200px" data-profile-property="upn"></span>
+									</p>
+									<ul class="is-unstyled has-margin-none has-margin-top-small">
+										<li><a href="https://docs.microsoft.com/profile" data-profile-property="profileUrl">Profile</a></li>
+										<li><a class="docs-sign-out" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#">Sign out</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<button type="button" class="contents-button button is-small is-text is-hidden-tablet has-inner-focus is-hidden-tablet" aria-label="Contents" data-bi-name="contents-expand-">
+				<span class="icon">
+					<span class="docon docon-editor-list-bullet" aria-hidden="true"></span>
+				</span>
+				<span>Contents</span>
+			</button>
+		</div>
+	</div>
+
+		<div id="banner-holder" class="has-default-focus has-overflow-hidden">
+		</div>
+
+	<div id="disclaimer-holder" class="has-overflow-hidden has-default-focus"></div>
+	</div>
+
+	<div class="mainContainer  uhf-container has-top-padding  has-default-focus" data-bi-name="body">
+
+		<div class="columns has-large-gaps is-gapless-mobile ">
+
+			<div id="left-container" class="left-container is-hidden-mobile column is-one-third-tablet is-one-quarter-desktop">
+				<nav id="affixed-left-container" class="is-fixed is-flex is-flex-column" role="navigation" aria-label="Primary" data-bi-name="left toc" style="width: 230.6px; top: 24px; bottom: 24px;"><form action="javascript:" role="search" aria-label="Search" class="is-full-width has-margin-bottom-small"><label class="visually-hidden" for="ax-10">Search</label><div class="autocomplete is-block" data-bi-name="autocomplete"><!---->
+		<div class="control has-icons-left">
+			<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="ax-10" class="autocomplete-input input control has-icons-left is-small is-full-width" type="text" aria-expanded="false" aria-owns="ax-11-listbox" aria-activedescendant="" placeholder="Filter by title">
+
+			<span class="icon is-small is-left" aria-hidden="true">
+				<span class="has-text-primary docon docon-filter"></span>
+			</span>
+
+			<span class="autocomplete-loader loader has-text-primary" aria-hidden="true" hidden=""></span>
+		</div>
+
+		<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-11-listbox" hidden="">
+			
+		</ul><!----></div></form><ul class="tree is-vertically-scrollable has-flex-grow has-flex-shrink" role="tree" aria-label="Table of contents" data-bi-name="tree"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/#pivot=aspnet">ASP.<wbr>NET documentation</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/overview">ASP.<wbr>NET overview</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/tutorials">Tutorials</a></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web Forms</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>MVC</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web API</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web Pages</span></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/config-builder">Configuration Builders</a></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>SignalR</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/">SignalR</a></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Guidance</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/">Guidance</a></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Getting Started</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/">Getting Started</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/introduction-to-signalr">Introduction to SignalR</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/supported-platforms">Supported Platforms</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr">Real-time chat with SignalR 2</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr-and-mvc">Real-time chat with SignalR 2 and MVC 5</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-high-frequency-realtime-with-signalr">High-frequency real-time with SignalR 2</a></li><li role="none"><a class="tree-item is-leaf is-selected" role="treeitem" tabindex="0" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr">Server Broadcast with SignalR 2</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/real-time-web-applications-with-signalr">Hands On Lab: Real-Time Web Applications with SignalR</a></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Guide to the API</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Testing and Debugging</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Security</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Performance</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Deployment and Hosting</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Advanced</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Releases</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Older Versions</span></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Videos</span></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Mobile</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Single Page Application</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web<wbr>Hooks</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Visual Studio 2017</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Visual Studio 2013</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Visual Studio 2012</span></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/entity-framework">Entity Framework</a></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Identity</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Ajax</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web Development Best Practices</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>OWIN and Katana</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Whitepapers</span></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/api-ref">API reference</a></li></ul><a class="button is-small is-text has-flex-justify-content-start has-inner-focus has-margin-top-small has-border-top has-border-bottom has-flex-shrink-none" href="https://docs.microsoft.com/en-us/aspnet/opbuildpdf/toc.pdf?branch=live" data-bi-name="downloadPdf"><!---->
+		<span class="icon is-size-8 has-text-subtle">
+			<span aria-hidden="true" class="docon docon-arrow-down"></span>
+		</span>
+		<span><!---->Download PDF<!----></span><!----></a></nav>
+			</div>
+
+			<section class="primary-holder column is-two-thirds-tablet is-three-quarters-desktop">
+				<div class="columns is-gapless-mobile has-large-gaps ">
+
+
+				<div id="main-column" class="column  is-full is-four-fifths-desktop ">
+
+					<main id="main" role="main" class="content " data-bi-name="content" lang="en-us" dir="ltr">
+
+
+
+						<h1 id="tutorial-server-broadcast-with-signalr-2" sourcefile="signalr/overview/getting-started/tutorial-server-broadcast-with-signalr.md" sourcestartlinenumber="14">Tutorial: Server broadcast with SignalR 2</h1>
+
+						<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+							<li class="displayDate">
+								<time role="presentation" datetime="2019-01-02T00:00:00.000Z" data-article-date-source="ms.date">01/01/2019</time>
+							</li>
+								<li class="readingTime">26 minutes to read</li>
+							<li class="contributors-holder">
+								<a class="has-inner-focus" href="https://github.com/aspnet/AspNetDocs/blob/master/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr.md" title="11 Contributors" aria-label="11 Contributors">
+									<ul class="contributors" data-bi-name="contributors" aria-hidden="true">
+												<li><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/tdykstra.png" data-src="https://github.com/tdykstra.png?size=32" role="presentation"></li>
+												<li><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/nschonni.png" data-src="https://github.com/nschonni.png?size=32" role="presentation"></li>
+												<li><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/john-par.png" data-src="https://github.com/john-par.png?size=32" role="presentation"></li>
+												<li><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/bradygaster.png" data-src="https://github.com/bradygaster.png?size=32" role="presentation"></li>
+												<li><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/gewarren.png" data-src="https://github.com/gewarren.png?size=32" role="presentation"></li>
+										<li><span class="is-size-8 has-text-subtle">+6</span></li>
+									</ul>
+								</a>
+							</li>
+
+						</ul>
+
+						<nav id="center-doc-outline" class="doc-outline is-hidden-desktop" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+							<h3>In this article</h3>
+						<ol><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#prerequisites">Prerequisites</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-the-project">Create the project</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#set-up-the-server-code">Set up the server code</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#set-up-the-client-code">Set up the client code</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#test-the-application">Test the application</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#enable-logging">Enable logging</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#install-the-stockticker-sample">Install the StockTicker sample</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#additional-resources">Additional resources</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#next-steps">Next steps</a></li></ol></nav>
+
+
+						<!-- <content> -->
+							
+<div class="alert is-warning">
+<p class="alert-title"><span class="docon docon-status-warning-outline" aria-hidden="true"></span> Warning</p>
+<p>This documentation isn't for the latest version of SignalR. Take a look at <a href="https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction" data-linktype="absolute-path">ASP.NET Core SignalR</a>.</p>
+</div>
+
+<p>This tutorial shows how to create a web application that uses ASP.NET SignalR 2 to provide server broadcast functionality. Server broadcast means that the server starts the communications sent to clients.</p>
+<p>The application that you'll create in this tutorial simulates a stock ticker, a typical scenario for server broadcast functionality. Periodically, the server randomly updates stock prices and broadcast the updates to all connected clients. In the browser, the numbers and symbols in the <strong>Change</strong> and <strong>%</strong> columns dynamically change in response to notifications from the server. If you open additional browsers to the same URL, they all show the same data and the same changes to the data simultaneously.</p>
+<p><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/image1.png" alt="Create web" data-linktype="relative-path"></p>
+<p>In this tutorial, you:</p>
+<div class="checklist">
+<ul>
+<li>Create the project</li>
+<li>Set up the server code</li>
+<li>Examine the server code</li>
+<li>Set up the client code</li>
+<li>Examine the client code</li>
+<li>Test the application</li>
+<li>Enable logging</li>
+</ul>
+</div>
+<div class="alert is-primary">
+<p class="alert-title"><span class="docon docon-status-info-outline" aria-hidden="true"></span> Important</p>
+<p>If you don't want to work through the steps of building the application, you can install the SignalR.Sample package in a new Empty ASP.NET Web Application project. If you install the NuGet package without performing the steps in this tutorial, you must follow the instructions in the <em>readme.txt</em> file. To run the package you need to add an OWIN startup class which calls the <code>ConfigureSignalR</code> method in the installed package. You will receive an error if you do not add the OWIN startup class. See the <a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#install-the-stockticker-sample" data-linktype="self-bookmark">Install the StockTicker sample</a> section of this article.</p>
+</div>
+<h2 id="prerequisites">Prerequisites<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#prerequisites" aria-labelledby="prerequisites"></a></h2>
+<ul>
+<li><a href="https://visualstudio.microsoft.com/downloads/" data-linktype="external">Visual Studio 2017</a> with the <strong>ASP.NET and web development</strong> workload.</li>
+</ul>
+<h2 id="create-the-project">Create the project<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-the-project" aria-labelledby="create-the-project"></a></h2>
+<p>This section shows how to use Visual Studio 2017 to create an empty ASP.NET Web Application.</p>
+<ol>
+<li><p>In Visual Studio, create an ASP.NET Web Application.</p>
+<p><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/image2.png" alt="Create web" data-linktype="relative-path"></p>
+</li>
+<li><p>In the <strong>New ASP.NET Web Application - SignalR.StockTicker</strong> window, leave <strong>Empty</strong> selected and select <strong>OK</strong>.</p>
+</li>
+</ol>
+<h2 id="set-up-the-server-code">Set up the server code<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#set-up-the-server-code" aria-labelledby="set-up-the-server-code"></a></h2>
+<p>In this section, you set up the code that runs on the server.</p>
+<h3 id="create-the-stock-class">Create the Stock class<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-the-stock-class" aria-labelledby="create-the-stock-class"></a></h3>
+<p>You begin by creating the <em>Stock</em> model class that you'll use to store and transmit information about a stock.</p>
+<ol>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>Class</strong>.</p>
+</li>
+<li><p>Name the class <em>Stock</em> and add it to the project.</p>
+</li>
+<li><p>Replace the code in the <em>Stock.cs</em> file with this code:</p>
+<div class="codeHeader" id="code-try-0" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="using System;
+
+namespace SignalR.StockTicker
+{
+    public class Stock
+    {
+        private decimal _price;
+
+        public string Symbol { get; set; }
+
+        public decimal Price
+        {
+            get
+            {
+                return _price;
+            }
+            set
+            {
+                if (_price == value)
+                {
+                    return;
+                }
+
+                _price = value;
+
+                if (DayOpen == 0)
+                {
+                    DayOpen = _price;
+                }
+            }
+        }
+
+        public decimal DayOpen { get; private set; }
+
+        public decimal Change
+        {
+            get
+            {
+                return Price - DayOpen;
+            }
+        }
+
+        public double PercentChange
+        {
+            get
+            {
+                return (double)Math.Round(Change / Price, 4);
+            }
+        }
+    }
+}
+"><span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">SignalR.StockTicker</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Stock</span>
+    {
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">decimal</span> _price;
+
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Symbol { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">decimal</span> Price
+        {
+            <span class="hljs-keyword">get</span>
+            {
+                <span class="hljs-keyword">return</span> _price;
+            }
+            <span class="hljs-keyword">set</span>
+            {
+                <span class="hljs-keyword">if</span> (_price == <span class="hljs-keyword">value</span>)
+                {
+                    <span class="hljs-keyword">return</span>;
+                }
+
+                _price = <span class="hljs-keyword">value</span>;
+
+                <span class="hljs-keyword">if</span> (DayOpen == <span class="hljs-number">0</span>)
+                {
+                    DayOpen = _price;
+                }
+            }
+        }
+
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">decimal</span> DayOpen { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">decimal</span> Change
+        {
+            <span class="hljs-keyword">get</span>
+            {
+                <span class="hljs-keyword">return</span> Price - DayOpen;
+            }
+        }
+
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> PercentChange
+        {
+            <span class="hljs-keyword">get</span>
+            {
+                <span class="hljs-keyword">return</span> (<span class="hljs-keyword">double</span>)Math.Round(Change / Price, <span class="hljs-number">4</span>);
+            }
+        }
+    }
+}
+</code></pre>
+<p>The two properties that you'll set when you create stocks are <code>Symbol</code> (for example, MSFT for Microsoft) and <code>Price</code>. The other properties depend on how and when you set <code>Price</code>. The first time you set <code>Price</code>, the value gets propagated to <code>DayOpen</code>. After that, when you set <code>Price</code>, the app calculates the <code>Change</code> and <code>PercentChange</code> property values based on the difference between <code>Price</code> and <code>DayOpen</code>.</p>
+</li>
+</ol>
+<h3 id="create-the-stocktickerhub-and-stockticker-classes">Create the StockTickerHub and StockTicker classes<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-the-stocktickerhub-and-stockticker-classes" aria-labelledby="create-the-stocktickerhub-and-stockticker-classes"></a></h3>
+<p>You'll use the SignalR Hub API to handle server-to-client interaction. A <code>StockTickerHub</code> class that derives from the SignalR <code>Hub</code> class will handle receiving connections and method calls from clients. You also need to maintain stock data and run a <code>Timer</code> object. The <code>Timer</code> object will periodically trigger price updates independent of client connections. You can't put these functions in a <code>Hub</code> class, because Hubs are transient. The app creates a <code>Hub</code> class instance for each task on the hub, like connections and calls from the client to the server. So the mechanism that keeps stock data, updates prices, and broadcasts the price updates has to run in a separate class. You'll name the class <code>StockTicker</code>.</p>
+<p><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/image3.png" alt="Broadcasting from StockTicker" data-linktype="relative-path"></p>
+<p>You only want one instance of the <code>StockTicker</code> class to run on the server, so you'll need to set up a reference from each <code>StockTickerHub</code> instance to the singleton <code>StockTicker</code> instance. The <code>StockTicker</code> class has to broadcast to clients because it has the stock data and triggers updates, but <code>StockTicker</code> isn't a <code>Hub</code> class. The <code>StockTicker</code> class has to get a reference to the SignalR Hub connection context object. It can then use the SignalR connection context object to broadcast to clients.</p>
+<h4 id="create-stocktickerhubcs">Create StockTickerHub.cs<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-stocktickerhubcs" aria-labelledby="create-stocktickerhubcs"></a></h4>
+<ol>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>New Item</strong>.</p>
+</li>
+<li><p>In <strong>Add New Item - SignalR.StockTicker</strong>, select <strong>Installed</strong> &gt; <strong>Visual C#</strong> &gt; <strong>Web</strong> &gt; <strong>SignalR</strong>  and then select <strong>SignalR Hub Class (v2)</strong>.</p>
+</li>
+<li><p>Name the class <em>StockTickerHub</em> and add it to the project.</p>
+<p>This step creates the <em>StockTickerHub.cs</em> class file. Simultaneously, it adds a set of script files and assembly references that supports SignalR to the project.</p>
+</li>
+<li><p>Replace the code in the <em>StockTickerHub.cs</em> file with this code:</p>
+<div class="codeHeader" id="code-try-1" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="using System.Collections.Generic;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+
+namespace SignalR.StockTicker
+{
+    [HubName(&quot;stockTickerMini&quot;)]
+    public class StockTickerHub : Hub
+    {
+        private readonly StockTicker _stockTicker;
+
+        public StockTickerHub() : this(StockTicker.Instance) { }
+
+        public StockTickerHub(StockTicker stockTicker)
+        {
+            _stockTicker = stockTicker;
+        }
+
+        public IEnumerable&lt;Stock&gt; GetAllStocks()
+        {
+            return _stockTicker.GetAllStocks();
+        }
+    }
+}
+"><span class="hljs-keyword">using</span> System.Collections.Generic;
+<span class="hljs-keyword">using</span> Microsoft.AspNet.SignalR;
+<span class="hljs-keyword">using</span> Microsoft.AspNet.SignalR.Hubs;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">SignalR.StockTicker</span>
+{
+    [<span class="hljs-meta">HubName(<span class="hljs-string">"stockTickerMini"</span>)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">StockTickerHub</span> : <span class="hljs-title">Hub</span>
+    {
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> StockTicker _stockTicker;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">StockTickerHub</span>(<span class="hljs-params"></span>) : <span class="hljs-title">this</span>(<span class="hljs-params">StockTicker.Instance</span>)</span> { }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">StockTickerHub</span>(<span class="hljs-params">StockTicker stockTicker</span>)</span>
+        {
+            _stockTicker = stockTicker;
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> IEnumerable&lt;Stock&gt; <span class="hljs-title">GetAllStocks</span>(<span class="hljs-params"></span>)</span>
+        {
+            <span class="hljs-keyword">return</span> _stockTicker.GetAllStocks();
+        }
+    }
+}
+</code></pre></li>
+<li><p>Save the file.</p>
+</li>
+</ol>
+<p>The app uses the <a href="https://msdn.microsoft.com/library/microsoft.aspnet.signalr.hub(v=vs.111).aspx" data-linktype="external">Hub</a> class to define methods the clients can call on the server. You're defining one method: <code>GetAllStocks()</code>. When a client initially connects to the server, it will call this method to get a list of all of the stocks with their current prices. The method can run synchronously and return <code>IEnumerable&lt;Stock&gt;</code> because it's returning data from memory.</p>
+<p>If the method had to get the data by doing something that would involve waiting, like a database lookup or a web service call, you would specify <code>Task&lt;IEnumerable&lt;Stock&gt;&gt;</code> as the return value to enable asynchronous processing. For more information, see <a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/guide-to-the-api/hubs-api-guide-server#asyncmethods" data-linktype="relative-path">ASP.NET SignalR Hubs API Guide - Server - When to execute asynchronously</a>.</p>
+<p>The <code>HubName</code> attribute specifies how the app will reference the Hub in JavaScript code on the client. The default name on the client if you don't use this attribute, is a camelCase version of the class name, which in this case would be <code>stockTickerHub</code>.</p>
+<p>As you'll see later when you create the <code>StockTicker</code> class, the app creates a singleton instance of that class in its static <code>Instance</code> property. That singleton instance of <code>StockTicker</code> is in memory no matter how many clients connect or disconnect. That instance is what the <code>GetAllStocks()</code> method uses to return current stock information.</p>
+<h4 id="create-stocktickercs">Create StockTicker.cs<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-stocktickercs" aria-labelledby="create-stocktickercs"></a></h4>
+<ol>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>Class</strong>.</p>
+</li>
+<li><p>Name the class <em>StockTicker</em> and add it to the project.</p>
+</li>
+<li><p>Replace the code in the <em>StockTicker.cs</em> file with this code:</p>
+<div class="codeHeader" id="code-try-2" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+
+namespace SignalR.StockTicker
+{
+    public class StockTicker
+    {
+        // Singleton instance
+        private readonly static Lazy&lt;StockTicker&gt; _instance = new Lazy&lt;StockTicker&gt;(() =&gt; new StockTicker(GlobalHost.ConnectionManager.GetHubContext&lt;StockTickerHub&gt;().Clients));
+
+        private readonly ConcurrentDictionary&lt;string, Stock&gt; _stocks = new ConcurrentDictionary&lt;string, Stock&gt;();
+
+        private readonly object _updateStockPricesLock = new object();
+
+        //stock can go up or down by a percentage of this factor on each change
+        private readonly double _rangePercent = .002;
+
+        private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(250);
+        private readonly Random _updateOrNotRandom = new Random();
+
+        private readonly Timer _timer;
+        private volatile bool _updatingStockPrices = false;
+
+        private StockTicker(IHubConnectionContext&lt;dynamic&gt; clients)
+        {
+            Clients = clients;
+
+            _stocks.Clear();
+            var stocks = new List&lt;Stock&gt;
+            {
+                new Stock { Symbol = &quot;MSFT&quot;, Price = 30.31m },
+                new Stock { Symbol = &quot;APPL&quot;, Price = 578.18m },
+                new Stock { Symbol = &quot;GOOG&quot;, Price = 570.30m }
+            };
+            stocks.ForEach(stock =&gt; _stocks.TryAdd(stock.Symbol, stock));
+
+            _timer = new Timer(UpdateStockPrices, null, _updateInterval, _updateInterval);
+
+        }
+
+        public static StockTicker Instance
+        {
+            get
+            {
+                return _instance.Value;
+            }
+        }
+
+        private IHubConnectionContext&lt;dynamic&gt; Clients
+        {
+            get;
+            set;
+        }
+
+        public IEnumerable&lt;Stock&gt; GetAllStocks()
+        {
+            return _stocks.Values;
+        }
+
+        private void UpdateStockPrices(object state)
+        {
+            lock (_updateStockPricesLock)
+            {
+                if (!_updatingStockPrices)
+                {
+                    _updatingStockPrices = true;
+
+                    foreach (var stock in _stocks.Values)
+                    {
+                        if (TryUpdateStockPrice(stock))
+                        {
+                            BroadcastStockPrice(stock);
+                        }
+                    }
+
+                    _updatingStockPrices = false;
+                }
+            }
+        }
+
+        private bool TryUpdateStockPrice(Stock stock)
+        {
+            // Randomly choose whether to update this stock or not
+            var r = _updateOrNotRandom.NextDouble();
+            if (r &gt; .1)
+            {
+                return false;
+            }
+
+            // Update the stock price by a random factor of the range percent
+            var random = new Random((int)Math.Floor(stock.Price));
+            var percentChange = random.NextDouble() * _rangePercent;
+            var pos = random.NextDouble() &gt; .51;
+            var change = Math.Round(stock.Price * (decimal)percentChange, 2);
+            change = pos ? change : -change;
+
+            stock.Price += change;
+            return true;
+        }
+
+        private void BroadcastStockPrice(Stock stock)
+        {
+            Clients.All.updateStockPrice(stock);
+        }
+
+    }
+}
+"><span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Concurrent;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+<span class="hljs-keyword">using</span> System.Threading;
+<span class="hljs-keyword">using</span> Microsoft.AspNet.SignalR;
+<span class="hljs-keyword">using</span> Microsoft.AspNet.SignalR.Hubs;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">SignalR.StockTicker</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">StockTicker</span>
+    {
+        <span class="hljs-comment">// Singleton instance</span>
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">static</span> Lazy&lt;StockTicker&gt; _instance = <span class="hljs-keyword">new</span> Lazy&lt;StockTicker&gt;(() =&gt; <span class="hljs-keyword">new</span> StockTicker(GlobalHost.ConnectionManager.GetHubContext&lt;StockTickerHub&gt;().Clients));
+
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ConcurrentDictionary&lt;<span class="hljs-keyword">string</span>, Stock&gt; _stocks = <span class="hljs-keyword">new</span> ConcurrentDictionary&lt;<span class="hljs-keyword">string</span>, Stock&gt;();
+
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">object</span> _updateStockPricesLock = <span class="hljs-keyword">new</span> <span class="hljs-keyword">object</span>();
+
+        <span class="hljs-comment">//stock can go up or down by a percentage of this factor on each change</span>
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">double</span> _rangePercent = <span class="hljs-number">.002</span>;
+
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> TimeSpan _updateInterval = TimeSpan.FromMilliseconds(<span class="hljs-number">250</span>);
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> Random _updateOrNotRandom = <span class="hljs-keyword">new</span> Random();
+
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> Timer _timer;
+        <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">bool</span> _updatingStockPrices = <span class="hljs-literal">false</span>;
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">StockTicker</span>(<span class="hljs-params">IHubConnectionContext&lt;<span class="hljs-keyword">dynamic</span>&gt; clients</span>)</span>
+        {
+            Clients = clients;
+
+            _stocks.Clear();
+            <span class="hljs-keyword">var</span> stocks = <span class="hljs-keyword">new</span> List&lt;Stock&gt;
+            {
+                <span class="hljs-keyword">new</span> Stock { Symbol = <span class="hljs-string">"MSFT"</span>, Price = <span class="hljs-number">30.31</span>m },
+                <span class="hljs-keyword">new</span> Stock { Symbol = <span class="hljs-string">"APPL"</span>, Price = <span class="hljs-number">578.18</span>m },
+                <span class="hljs-keyword">new</span> Stock { Symbol = <span class="hljs-string">"GOOG"</span>, Price = <span class="hljs-number">570.30</span>m }
+            };
+            stocks.ForEach(stock =&gt; _stocks.TryAdd(stock.Symbol, stock));
+
+            _timer = <span class="hljs-keyword">new</span> Timer(UpdateStockPrices, <span class="hljs-literal">null</span>, _updateInterval, _updateInterval);
+
+        }
+
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> StockTicker Instance
+        {
+            <span class="hljs-keyword">get</span>
+            {
+                <span class="hljs-keyword">return</span> _instance.Value;
+            }
+        }
+
+        <span class="hljs-keyword">private</span> IHubConnectionContext&lt;<span class="hljs-keyword">dynamic</span>&gt; Clients
+        {
+            <span class="hljs-keyword">get</span>;
+            <span class="hljs-keyword">set</span>;
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> IEnumerable&lt;Stock&gt; <span class="hljs-title">GetAllStocks</span>(<span class="hljs-params"></span>)</span>
+        {
+            <span class="hljs-keyword">return</span> _stocks.Values;
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">UpdateStockPrices</span>(<span class="hljs-params"><span class="hljs-keyword">object</span> state</span>)</span>
+        {
+            <span class="hljs-keyword">lock</span> (_updateStockPricesLock)
+            {
+                <span class="hljs-keyword">if</span> (!_updatingStockPrices)
+                {
+                    _updatingStockPrices = <span class="hljs-literal">true</span>;
+
+                    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> stock <span class="hljs-keyword">in</span> _stocks.Values)
+                    {
+                        <span class="hljs-keyword">if</span> (TryUpdateStockPrice(stock))
+                        {
+                            BroadcastStockPrice(stock);
+                        }
+                    }
+
+                    _updatingStockPrices = <span class="hljs-literal">false</span>;
+                }
+            }
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">TryUpdateStockPrice</span>(<span class="hljs-params">Stock stock</span>)</span>
+        {
+            <span class="hljs-comment">// Randomly choose whether to update this stock or not</span>
+            <span class="hljs-keyword">var</span> r = _updateOrNotRandom.NextDouble();
+            <span class="hljs-keyword">if</span> (r &gt; <span class="hljs-number">.1</span>)
+            {
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+            }
+
+            <span class="hljs-comment">// Update the stock price by a random factor of the range percent</span>
+            <span class="hljs-keyword">var</span> random = <span class="hljs-keyword">new</span> Random((<span class="hljs-keyword">int</span>)Math.Floor(stock.Price));
+            <span class="hljs-keyword">var</span> percentChange = random.NextDouble() * _rangePercent;
+            <span class="hljs-keyword">var</span> pos = random.NextDouble() &gt; <span class="hljs-number">.51</span>;
+            <span class="hljs-keyword">var</span> change = Math.Round(stock.Price * (<span class="hljs-keyword">decimal</span>)percentChange, <span class="hljs-number">2</span>);
+            change = pos ? change : -change;
+
+            stock.Price += change;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BroadcastStockPrice</span>(<span class="hljs-params">Stock stock</span>)</span>
+        {
+            Clients.All.updateStockPrice(stock);
+        }
+
+    }
+}
+</code></pre></li>
+</ol>
+<p>Since all threads will be running the same instance of StockTicker code, the StockTicker class has to be thread-safe.</p>
+<h3 id="examine-the-server-code">Examine the server code<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#examine-the-server-code" aria-labelledby="examine-the-server-code"></a></h3>
+<p>If you examine the server code, it will help you understand how the app works.</p>
+<h4 id="storing-the-singleton-instance-in-a-static-field">Storing the singleton instance in a static field<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#storing-the-singleton-instance-in-a-static-field" aria-labelledby="storing-the-singleton-instance-in-a-static-field"></a></h4>
+<p>The code initializes the static <code>_instance</code> field that backs the <code>Instance</code> property with an instance of the class. Because the constructor is private, it's the only instance of the class that the app can create. The app uses <a href="https://docs.microsoft.com/en-us/dotnet/framework/performance/lazy-initialization" data-linktype="absolute-path">Lazy initialization</a> for the <code>_instance</code> field. It's not for performance reasons. It's to make sure the instance creation is thread-safe.</p>
+<div class="codeHeader" id="code-try-3" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="private readonly static Lazy&lt;StockTicker&gt; _instance = new Lazy&lt;StockTicker&gt;(() =&gt; new StockTicker(GlobalHost.ConnectionManager.GetHubContext&lt;StockTickerHub&gt;().Clients));
+
+public static StockTicker Instance
+{
+    get
+    {
+        return _instance.Value;
+    }
+}
+"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">static</span> Lazy&lt;StockTicker&gt; _instance = <span class="hljs-keyword">new</span> Lazy&lt;StockTicker&gt;(() =&gt; <span class="hljs-keyword">new</span> StockTicker(GlobalHost.ConnectionManager.GetHubContext&lt;StockTickerHub&gt;().Clients));
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> StockTicker Instance
+{
+    <span class="hljs-keyword">get</span>
+    {
+        <span class="hljs-keyword">return</span> _instance.Value;
+    }
+}
+</code></pre>
+<p>Each time a client connects to the server, a new instance of the StockTickerHub class running in a separate thread gets the StockTicker singleton instance from the <code>StockTicker.Instance</code> static property, as you saw earlier in the <code>StockTickerHub</code> class.</p>
+<h4 id="storing-stock-data-in-a-concurrentdictionary">Storing stock data in a ConcurrentDictionary<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#storing-stock-data-in-a-concurrentdictionary" aria-labelledby="storing-stock-data-in-a-concurrentdictionary"></a></h4>
+<p>The constructor initializes the <code>_stocks</code> collection with some sample stock data, and <code>GetAllStocks</code> returns the stocks. As you saw earlier, this collection of stocks is returned by <code>StockTickerHub.GetAllStocks</code>, which is a server method in the <code>Hub</code> class that clients can call.</p>
+<div class="codeHeader" id="code-try-4" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="private readonly ConcurrentDictionary&lt;string, Stock&gt; _stocks = new ConcurrentDictionary&lt;string, Stock&gt;();
+"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ConcurrentDictionary&lt;<span class="hljs-keyword">string</span>, Stock&gt; _stocks = <span class="hljs-keyword">new</span> ConcurrentDictionary&lt;<span class="hljs-keyword">string</span>, Stock&gt;();
+</code></pre><div class="codeHeader" id="code-try-5" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="private StockTicker(IHubConnectionContext&lt;dynamic&gt; clients)
+{
+    Clients = clients;
+
+    _stocks.Clear();
+    var stocks = new List&lt;Stock&gt;
+    {
+        new Stock { Symbol = &quot;MSFT&quot;, Price = 30.31m },
+        new Stock { Symbol = &quot;APPL&quot;, Price = 578.18m },
+        new Stock { Symbol = &quot;GOOG&quot;, Price = 570.30m }
+    };
+    stocks.ForEach(stock =&gt; _stocks.TryAdd(stock.Symbol, stock));
+
+    _timer = new Timer(UpdateStockPrices, null, _updateInterval, _updateInterval);
+}
+
+public IEnumerable&lt;Stock&gt; GetAllStocks()
+{
+    return _stocks.Values;
+}
+"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">StockTicker</span>(<span class="hljs-params">IHubConnectionContext&lt;<span class="hljs-keyword">dynamic</span>&gt; clients</span>)</span>
+{
+    Clients = clients;
+
+    _stocks.Clear();
+    <span class="hljs-keyword">var</span> stocks = <span class="hljs-keyword">new</span> List&lt;Stock&gt;
+    {
+        <span class="hljs-keyword">new</span> Stock { Symbol = <span class="hljs-string">"MSFT"</span>, Price = <span class="hljs-number">30.31</span>m },
+        <span class="hljs-keyword">new</span> Stock { Symbol = <span class="hljs-string">"APPL"</span>, Price = <span class="hljs-number">578.18</span>m },
+        <span class="hljs-keyword">new</span> Stock { Symbol = <span class="hljs-string">"GOOG"</span>, Price = <span class="hljs-number">570.30</span>m }
+    };
+    stocks.ForEach(stock =&gt; _stocks.TryAdd(stock.Symbol, stock));
+
+    _timer = <span class="hljs-keyword">new</span> Timer(UpdateStockPrices, <span class="hljs-literal">null</span>, _updateInterval, _updateInterval);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> IEnumerable&lt;Stock&gt; <span class="hljs-title">GetAllStocks</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">return</span> _stocks.Values;
+}
+</code></pre>
+<p>The stocks collection is defined as a <a href="https://msdn.microsoft.com/library/dd287191.aspx" data-linktype="external">ConcurrentDictionary</a> type for thread safety. As an alternative, you could use a <a href="https://msdn.microsoft.com/library/xfhwa508.aspx" data-linktype="external">Dictionary</a> object and explicitly lock the dictionary when you make changes to it.</p>
+<p>For this sample application, it's OK to store application data in memory and to lose the data when the app disposes of the  <code>StockTicker</code> instance. In a real application, you would work with a back-end data store like a database.</p>
+<h4 id="periodically-updating-stock-prices">Periodically updating stock prices<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#periodically-updating-stock-prices" aria-labelledby="periodically-updating-stock-prices"></a></h4>
+<p>The constructor starts up a <code>Timer</code> object that periodically calls methods that update stock prices on a random basis.</p>
+<div class="codeHeader" id="code-try-6" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="_timer = new Timer(UpdateStockPrices, null, _updateInterval, _updateInterval);
+
+private void UpdateStockPrices(object state)
+{
+    lock (_updateStockPricesLock)
+    {
+        if (!_updatingStockPrices)
+        {
+            _updatingStockPrices = true;
+
+            foreach (var stock in _stocks.Values)
+            {
+                if (TryUpdateStockPrice(stock))
+                {
+                    BroadcastStockPrice(stock);
+                }
+            }
+
+            _updatingStockPrices = false;
+        }
+    }
+}
+
+private bool TryUpdateStockPrice(Stock stock)
+{
+    // Randomly choose whether to update this stock or not
+    var r = _updateOrNotRandom.NextDouble();
+    if (r &gt; .1)
+    {
+        return false;
+    }
+
+    // Update the stock price by a random factor of the range percent
+    var random = new Random((int)Math.Floor(stock.Price));
+    var percentChange = random.NextDouble() * _rangePercent;
+    var pos = random.NextDouble() &gt; .51;
+    var change = Math.Round(stock.Price * (decimal)percentChange, 2);
+    change = pos ? change : -change;
+
+    stock.Price += change;
+    return true;
+}
+">_timer = <span class="hljs-keyword">new</span> Timer(UpdateStockPrices, <span class="hljs-literal">null</span>, _updateInterval, _updateInterval);
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">UpdateStockPrices</span>(<span class="hljs-params"><span class="hljs-keyword">object</span> state</span>)</span>
+{
+    <span class="hljs-keyword">lock</span> (_updateStockPricesLock)
+    {
+        <span class="hljs-keyword">if</span> (!_updatingStockPrices)
+        {
+            _updatingStockPrices = <span class="hljs-literal">true</span>;
+
+            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> stock <span class="hljs-keyword">in</span> _stocks.Values)
+            {
+                <span class="hljs-keyword">if</span> (TryUpdateStockPrice(stock))
+                {
+                    BroadcastStockPrice(stock);
+                }
+            }
+
+            _updatingStockPrices = <span class="hljs-literal">false</span>;
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">TryUpdateStockPrice</span>(<span class="hljs-params">Stock stock</span>)</span>
+{
+    <span class="hljs-comment">// Randomly choose whether to update this stock or not</span>
+    <span class="hljs-keyword">var</span> r = _updateOrNotRandom.NextDouble();
+    <span class="hljs-keyword">if</span> (r &gt; <span class="hljs-number">.1</span>)
+    {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+
+    <span class="hljs-comment">// Update the stock price by a random factor of the range percent</span>
+    <span class="hljs-keyword">var</span> random = <span class="hljs-keyword">new</span> Random((<span class="hljs-keyword">int</span>)Math.Floor(stock.Price));
+    <span class="hljs-keyword">var</span> percentChange = random.NextDouble() * _rangePercent;
+    <span class="hljs-keyword">var</span> pos = random.NextDouble() &gt; <span class="hljs-number">.51</span>;
+    <span class="hljs-keyword">var</span> change = Math.Round(stock.Price * (<span class="hljs-keyword">decimal</span>)percentChange, <span class="hljs-number">2</span>);
+    change = pos ? change : -change;
+
+    stock.Price += change;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+</code></pre>
+<p><code>Timer</code> calls <code>UpdateStockPrices</code>, which passes in null in the state parameter. Before updating prices, the app takes a lock on the <code>_updateStockPricesLock</code> object. The code checks if another thread is already updating prices, and then it calls <code>TryUpdateStockPrice</code> on each stock in the list. The <code>TryUpdateStockPrice</code> method decides whether to change the stock price, and how much to change it. If the stock price changes, the app calls <code>BroadcastStockPrice</code> to broadcast the stock price change to all connected clients.</p>
+<p>The <code>_updatingStockPrices</code> flag designated <a href="https://msdn.microsoft.com/library/x13ttww7.aspx" data-linktype="external">volatile</a> to make sure it is thread-safe.</p>
+<div class="codeHeader" id="code-try-7" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="private volatile bool _updatingStockPrices = false;
+"><span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">bool</span> _updatingStockPrices = <span class="hljs-literal">false</span>;
+</code></pre>
+<p>In a real application, the <code>TryUpdateStockPrice</code> method would call a web service to look up the price. In this code, the app uses a random number generator to make changes randomly.</p>
+<h4 id="getting-the-signalr-context-so-that-the-stockticker-class-can-broadcast-to-clients">Getting the SignalR context so that the StockTicker class can broadcast to clients<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#getting-the-signalr-context-so-that-the-stockticker-class-can-broadcast-to-clients" aria-labelledby="getting-the-signalr-context-so-that-the-stockticker-class-can-broadcast-to-clients"></a></h4>
+<p>Because the price changes originate here in the <code>StockTicker</code> object, it's the object that needs to call an <code>updateStockPrice</code> method on all connected clients. In a <code>Hub</code> class, you have an API for calling client methods, but <code>StockTicker</code> doesn't derive from the <code>Hub</code> class and doesn't have a reference to any <code>Hub</code> object. To broadcast to connected clients, the <code>StockTicker</code> class has to get the SignalR context instance for the <code>StockTickerHub</code> class and use that to call methods on clients.</p>
+<p>The code gets a reference to the SignalR context when it creates the singleton class instance, passes that reference to the constructor, and the constructor puts it in the <code>Clients</code> property.</p>
+<p>There are two reasons why you want to get the context only once: getting the context is an expensive task, and getting it once makes sure the app preserves the intended order of messages sent to the clients.</p>
+<div class="codeHeader" id="code-try-8" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="private readonly static Lazy&lt;StockTicker&gt; _instance =
+    new Lazy&lt;StockTicker&gt;(() =&gt; new StockTicker(GlobalHost.ConnectionManager.GetHubContext&lt;StockTickerHub&gt;().Clients));
+
+private StockTicker(IHubConnectionContext&lt;dynamic&gt; clients)
+{
+    Clients = clients;
+
+    // Remainder of constructor ...
+}
+
+private IHubConnectionContext&lt;dynamic&gt; Clients
+{
+    get;
+    set;
+}
+
+private void BroadcastStockPrice(Stock stock)
+{
+    Clients.All.updateStockPrice(stock);
+}
+"><span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">static</span> Lazy&lt;StockTicker&gt; _instance =
+    <span class="hljs-keyword">new</span> Lazy&lt;StockTicker&gt;(() =&gt; <span class="hljs-keyword">new</span> StockTicker(GlobalHost.ConnectionManager.GetHubContext&lt;StockTickerHub&gt;().Clients));
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">StockTicker</span>(<span class="hljs-params">IHubConnectionContext&lt;<span class="hljs-keyword">dynamic</span>&gt; clients</span>)</span>
+{
+    Clients = clients;
+
+    <span class="hljs-comment">// Remainder of constructor ...</span>
+}
+
+<span class="hljs-keyword">private</span> IHubConnectionContext&lt;<span class="hljs-keyword">dynamic</span>&gt; Clients
+{
+    <span class="hljs-keyword">get</span>;
+    <span class="hljs-keyword">set</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BroadcastStockPrice</span>(<span class="hljs-params">Stock stock</span>)</span>
+{
+    Clients.All.updateStockPrice(stock);
+}
+</code></pre>
+<p>Getting the <code>Clients</code> property of the context and putting it in the <code>StockTickerClient</code> property lets you write code to call client methods that looks the same as it would in a <code>Hub</code> class. For instance, to broadcast to all clients you can write <code>Clients.All.updateStockPrice(stock)</code>.</p>
+<p>The <code>updateStockPrice</code> method that you're calling in <code>BroadcastStockPrice</code> doesn't exist yet. You'll add it later when you write code that runs on the client. You can refer to <code>updateStockPrice</code> here because <code>Clients.All</code> is dynamic, which means the app will evaluate the expression at runtime. When this method call executes, SignalR will send the method name and the parameter value to the client, and if the client has a method named <code>updateStockPrice</code>, the app will call that method and pass the parameter value to it.</p>
+<p><code>Clients.All</code> means send to all clients. SignalR gives you other options to specify which clients or groups of clients to send to. For more information, see <a href="https://msdn.microsoft.com/library/microsoft.aspnet.signalr.hubs.hubconnectioncontext(v=vs.111).aspx" data-linktype="external">HubConnectionContext</a>.</p>
+<h3 id="register-the-signalr-route">Register the SignalR route<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#register-the-signalr-route" aria-labelledby="register-the-signalr-route"></a></h3>
+<p>The server needs to know which URL to intercept and direct to SignalR. To do that, add an OWIN startup class:</p>
+<ol>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>New Item</strong>.</p>
+</li>
+<li><p>In <strong>Add New Item - SignalR.StockTicker</strong> select <strong>Installed</strong> &gt; <strong>Visual C#</strong> &gt; <strong>Web</strong> and then select <strong>OWIN Startup Class</strong>.</p>
+</li>
+<li><p>Name the class <em>Startup</em> and select <strong>OK</strong>.</p>
+</li>
+<li><p>Replace the default code in the <em>Startup.cs</em> file with this code:</p>
+<div class="codeHeader" id="code-try-9" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="using System;
+using System.Threading.Tasks;
+using Microsoft.Owin;
+using Owin;
+
+[assembly: OwinStartup(typeof(SignalR.StockTicker.Startup))]
+
+namespace SignalR.StockTicker
+{
+    public class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            // Any connection or hub wire up and configuration should go here
+            app.MapSignalR();
+        }
+
+    }
+}
+"><span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Threading.Tasks;
+<span class="hljs-keyword">using</span> Microsoft.Owin;
+<span class="hljs-keyword">using</span> Owin;
+
+[<span class="hljs-meta">assembly: OwinStartup(typeof(SignalR.StockTicker.Startup))</span>]
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">SignalR.StockTicker</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Startup</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Configuration</span>(<span class="hljs-params">IAppBuilder app</span>)</span>
+        {
+            <span class="hljs-comment">// Any connection or hub wire up and configuration should go here</span>
+            app.MapSignalR();
+        }
+
+    }
+}
+</code></pre></li>
+</ol>
+<p>You have now finished setting up the server code. In the next section, you'll set up the client.</p>
+<h2 id="set-up-the-client-code">Set up the client code<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#set-up-the-client-code" aria-labelledby="set-up-the-client-code"></a></h2>
+<p>In this section, you set up the code that runs on the client.</p>
+<h3 id="create-the-html-page-and-javascript-file">Create the HTML page and JavaScript file<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-the-html-page-and-javascript-file" aria-labelledby="create-the-html-page-and-javascript-file"></a></h3>
+<p>The HTML page will display the data and the JavaScript file will organize the data.</p>
+<h4 id="create-stocktickerhtml">Create StockTicker.html<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-stocktickerhtml" aria-labelledby="create-stocktickerhtml"></a></h4>
+<p>First, you'll add the HTML client.</p>
+<ol>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>HTML Page</strong>.</p>
+</li>
+<li><p>Name the file <em>StockTicker</em> and select <strong>OK</strong>.</p>
+</li>
+<li><p>Replace the default code in the <em>StockTicker.html</em> file with this code:</p>
+<div class="codeHeader" id="code-try-10" data-bi-name="code-header"><span class="language">HTML</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-html" name="Main" highlight-lines="40-43" data-author-content="&lt;!DOCTYPE html&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;ASP.NET SignalR Stock Ticker&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: &#39;Segoe UI&#39;, Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+        #stockTable table {
+            border-collapse: collapse;
+        }
+            #stockTable table th, #stockTable table td {
+                padding: 2px 6px;
+            }
+            #stockTable table td {
+                text-align: right;
+            }
+        #stockTable .loading td {
+            text-align: left;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;ASP.NET SignalR Stock Ticker Sample&lt;/h1&gt;
+
+    &lt;h2&gt;Live Stock Table&lt;/h2&gt;
+    &lt;div id=&quot;stockTable&quot;&gt;
+        &lt;table border=&quot;1&quot;&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;&lt;th&gt;Symbol&lt;/th&gt;&lt;th&gt;Price&lt;/th&gt;&lt;th&gt;Open&lt;/th&gt;&lt;th&gt;Change&lt;/th&gt;&lt;th&gt;%&lt;/th&gt;&lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                &lt;tr class=&quot;loading&quot;&gt;&lt;td colspan=&quot;5&quot;&gt;loading...&lt;/td&gt;&lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+
+    &lt;!--Script references. --&gt;
+    &lt;!--Reference the jQuery library. --&gt;
+    &lt;script src=&quot;/Scripts/jquery-1.10.2.min.js&quot; &gt;&lt;/script&gt;
+    &lt;!--Reference the SignalR library. --&gt;
+    &lt;script src=&quot;/Scripts/jquery.signalR-2.1.0.js&quot;&gt;&lt;/script&gt;
+    &lt;!--Reference the autogenerated SignalR hub script. --&gt;
+    &lt;script src=&quot;/signalr/hubs&quot;&gt;&lt;/script&gt;
+    &lt;!--Reference the StockTicker script. --&gt;
+    &lt;script src=&quot;StockTicker.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"><div class="line-highlight is-absolute" style="top: 46.313rem; left: -15px; width: 300%; height: 4.75rem;"></div><span class="is-relative"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/1999/xhtml"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>ASP.NET SignalR Stock Ticker<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+        <span class="hljs-selector-tag">body</span> {
+            <span class="hljs-attribute">font-family</span>: <span class="hljs-string">'Segoe UI'</span>, Arial, Helvetica, sans-serif;
+            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;
+        }
+        <span class="hljs-selector-id">#stockTable</span> <span class="hljs-selector-tag">table</span> {
+            <span class="hljs-attribute">border-collapse</span>: collapse;
+        }
+            <span class="hljs-selector-id">#stockTable</span> <span class="hljs-selector-tag">table</span> <span class="hljs-selector-tag">th</span>, <span class="hljs-selector-id">#stockTable</span> <span class="hljs-selector-tag">table</span> <span class="hljs-selector-tag">td</span> {
+                <span class="hljs-attribute">padding</span>: <span class="hljs-number">2px</span> <span class="hljs-number">6px</span>;
+            }
+            <span class="hljs-selector-id">#stockTable</span> <span class="hljs-selector-tag">table</span> <span class="hljs-selector-tag">td</span> {
+                <span class="hljs-attribute">text-align</span>: right;
+            }
+        <span class="hljs-selector-id">#stockTable</span> <span class="hljs-selector-class">.loading</span> <span class="hljs-selector-tag">td</span> {
+            <span class="hljs-attribute">text-align</span>: left;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>ASP.NET SignalR Stock Ticker Sample<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Live Stock Table<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"stockTable"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">border</span>=<span class="hljs-string">"1"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Symbol<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Price<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Open<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Change<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>%<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">tr</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"loading"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">colspan</span>=<span class="hljs-string">"5"</span>&gt;</span>loading...<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--Script references. --&gt;</span>
+    <span class="hljs-comment">&lt;!--Reference the jQuery library. --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/Scripts/jquery-1.10.2.min.js"</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--Reference the SignalR library. --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/Scripts/jquery.signalR-2.1.0.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--Reference the autogenerated SignalR hub script. --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/signalr/hubs"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--Reference the StockTicker script. --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"StockTicker.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</span></code></pre>
+<p>The HTML creates a table with five columns, a header row, and a data row with a single cell that spans all five columns. The data row shows "loading..." momentarily when the app starts. JavaScript code will remove that row and add in its place rows with stock data retrieved from the server.</p>
+<p>The script tags specify:</p>
+<ul>
+<li><p>The jQuery script file.</p>
+</li>
+<li><p>The SignalR core script file.</p>
+</li>
+<li><p>The SignalR proxies script file.</p>
+</li>
+<li><p>A StockTicker script file that you'll create later.</p>
+</li>
+</ul>
+<p>The app dynamically generates the SignalR proxies script file. It specifies the "/signalr/hubs" URL and defines proxy methods for the methods on the Hub class, in this case, for <code>StockTickerHub.GetAllStocks</code>. If you prefer, you can generate this JavaScript file manually by using <a href="http://nuget.org/packages/Microsoft.AspNet.SignalR.Utils/" data-linktype="external">SignalR Utilities</a>. Don't forget to disable dynamic file creation in the <code>MapHubs</code> method call.</p>
+</li>
+<li><p>In <strong>Solution Explorer</strong>, expand <strong>Scripts</strong>.</p>
+<p>Script libraries for jQuery and SignalR are visible in the project.</p>
+<div class="alert is-primary">
+<p class="alert-title"><span class="docon docon-status-info-outline" aria-hidden="true"></span> Important</p>
+<p>The package manager will install a later version of the SignalR scripts.</p>
+</div>
+</li>
+<li><p>Update the script references in the code block to correspond to the versions of the script files in the project.</p>
+</li>
+<li><p>In <strong>Solution Explorer</strong>, right-click <em>StockTicker.html</em>, and then select <strong>Set as Start Page</strong>.</p>
+</li>
+</ol>
+<h4 id="create-stocktickerjs">Create StockTicker.js<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-stocktickerjs" aria-labelledby="create-stocktickerjs"></a></h4>
+<p>Now create the JavaScript file.</p>
+<ol>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>JavaScript File</strong>.</p>
+</li>
+<li><p>Name the file <em>StockTicker</em> and select <strong>OK</strong>.</p>
+</li>
+<li><p>Add this code to the <em>StockTicker.js</em> file:</p>
+<div class="codeHeader" id="code-try-11" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="// A simple templating method for replacing placeholders enclosed in curly braces.
+if (!String.prototype.supplant) {
+    String.prototype.supplant = function (o) {
+        return this.replace(/{([^{}]*)}/g,
+            function (a, b) {
+                var r = o[b];
+                return typeof r === &#39;string&#39; || typeof r === &#39;number&#39; ? r : a;
+            }
+        );
+    };
+}
+
+$(function () {
+
+    var ticker = $.connection.stockTickerMini, // the generated client-side hub proxy
+        up = &#39;▲&#39;,
+        down = &#39;▼&#39;,
+        $stockTable = $(&#39;#stockTable&#39;),
+        $stockTableBody = $stockTable.find(&#39;tbody&#39;),
+        rowTemplate = &#39;&lt;tr data-symbol=&quot;{Symbol}&quot;&gt;&lt;td&gt;{Symbol}&lt;/td&gt;&lt;td&gt;{Price}&lt;/td&gt;&lt;td&gt;{DayOpen}&lt;/td&gt;&lt;td&gt;{Direction} {Change}&lt;/td&gt;&lt;td&gt;{PercentChange}&lt;/td&gt;&lt;/tr&gt;&#39;;
+
+    function formatStock(stock) {
+        return $.extend(stock, {
+            Price: stock.Price.toFixed(2),
+            PercentChange: (stock.PercentChange * 100).toFixed(2) + &#39;%&#39;,
+            Direction: stock.Change === 0 ? &#39;&#39; : stock.Change &gt;= 0 ? up : down
+        });
+    }
+
+    function init() {
+        ticker.server.getAllStocks().done(function (stocks) {
+            $stockTableBody.empty();
+            $.each(stocks, function () {
+                var stock = formatStock(this);
+                $stockTableBody.append(rowTemplate.supplant(stock));
+            });
+        });
+    }
+
+    // Add a client-side hub method that the server will call
+    ticker.client.updateStockPrice = function (stock) {
+        var displayStock = formatStock(stock),
+            $row = $(rowTemplate.supplant(displayStock));
+
+        $stockTableBody.find(&#39;tr[data-symbol=&#39; + stock.Symbol + &#39;]&#39;)
+            .replaceWith($row);
+        }
+
+    // Start the connection
+    $.connection.hub.start().done(init);
+
+});
+"><span class="hljs-comment">// A simple templating method for replacing placeholders enclosed in curly braces.</span>
+<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">String</span>.prototype.supplant) {
+    <span class="hljs-built_in">String</span>.prototype.supplant = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">o</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.replace(<span class="hljs-regexp">/{([^{}]*)}/g</span>,
+            <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b</span>) </span>{
+                <span class="hljs-keyword">var</span> r = o[b];
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> r === <span class="hljs-string">'string'</span> || <span class="hljs-keyword">typeof</span> r === <span class="hljs-string">'number'</span> ? r : a;
+            }
+        );
+    };
+}
+
+$(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+
+    <span class="hljs-keyword">var</span> ticker = $.connection.stockTickerMini, <span class="hljs-comment">// the generated client-side hub proxy</span>
+        up = <span class="hljs-string">'▲'</span>,
+        down = <span class="hljs-string">'▼'</span>,
+        $stockTable = $(<span class="hljs-string">'#stockTable'</span>),
+        $stockTableBody = $stockTable.find(<span class="hljs-string">'tbody'</span>),
+        rowTemplate = <span class="hljs-string">'&lt;tr data-symbol="{Symbol}"&gt;&lt;td&gt;{Symbol}&lt;/td&gt;&lt;td&gt;{Price}&lt;/td&gt;&lt;td&gt;{DayOpen}&lt;/td&gt;&lt;td&gt;{Direction} {Change}&lt;/td&gt;&lt;td&gt;{PercentChange}&lt;/td&gt;&lt;/tr&gt;'</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatStock</span>(<span class="hljs-params">stock</span>) </span>{
+        <span class="hljs-keyword">return</span> $.extend(stock, {
+            <span class="hljs-attr">Price</span>: stock.Price.toFixed(<span class="hljs-number">2</span>),
+            <span class="hljs-attr">PercentChange</span>: (stock.PercentChange * <span class="hljs-number">100</span>).toFixed(<span class="hljs-number">2</span>) + <span class="hljs-string">'%'</span>,
+            <span class="hljs-attr">Direction</span>: stock.Change === <span class="hljs-number">0</span> ? <span class="hljs-string">''</span> : stock.Change &gt;= <span class="hljs-number">0</span> ? up : down
+        });
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">init</span>(<span class="hljs-params"></span>) </span>{
+        ticker.server.getAllStocks().done(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">stocks</span>) </span>{
+            $stockTableBody.empty();
+            $.each(stocks, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+                <span class="hljs-keyword">var</span> stock = formatStock(<span class="hljs-keyword">this</span>);
+                $stockTableBody.append(rowTemplate.supplant(stock));
+            });
+        });
+    }
+
+    <span class="hljs-comment">// Add a client-side hub method that the server will call</span>
+    ticker.client.updateStockPrice = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">stock</span>) </span>{
+        <span class="hljs-keyword">var</span> displayStock = formatStock(stock),
+            $row = $(rowTemplate.supplant(displayStock));
+
+        $stockTableBody.find(<span class="hljs-string">'tr[data-symbol='</span> + stock.Symbol + <span class="hljs-string">']'</span>)
+            .replaceWith($row);
+        }
+
+    <span class="hljs-comment">// Start the connection</span>
+    $.connection.hub.start().done(init);
+
+});
+</code></pre></li>
+</ol>
+<h3 id="examine-the-client-code">Examine the client code<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#examine-the-client-code" aria-labelledby="examine-the-client-code"></a></h3>
+<p>If you examine the client code, it will help you learn how the client code interacts with the server code to make the app work.</p>
+<h4 id="starting-the-connection">Starting the connection<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#starting-the-connection" aria-labelledby="starting-the-connection"></a></h4>
+<p><code>$.connection</code> refers to the SignalR proxies. The code gets a reference to the proxy for the <code>StockTickerHub</code> class and puts it in the <code>ticker</code> variable. The proxy name is the name that was set by the <code>HubName</code> attribute:</p>
+<div class="codeHeader" id="code-try-12" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="var ticker = $.connection.stockTickerMini
+"><span class="hljs-keyword">var</span> ticker = $.connection.stockTickerMini
+</code></pre><div class="codeHeader" id="code-try-13" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="[HubName(&quot;stockTickerMini&quot;)]
+public class StockTickerHub : Hub
+">[<span class="hljs-meta">HubName(<span class="hljs-string">"stockTickerMini"</span>)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">StockTickerHub</span> : <span class="hljs-title">Hub</span>
+</code></pre>
+<p>After you define all the variables and functions, the last line of code in the file initializes the SignalR connection by calling the SignalR <code>start</code> function. The <code>start</code> function executes asynchronously and returns a <a href="http://api.jquery.com/category/deferred-object/" data-linktype="external">jQuery Deferred object</a>. You can call the done function to specify the function to call when the app finishes the asynchronous action.</p>
+<div class="codeHeader" id="code-try-14" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="$.connection.hub.start().done(init);
+">$.connection.hub.start().done(init);
+</code></pre><h4 id="getting-all-the-stocks">Getting all the stocks<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#getting-all-the-stocks" aria-labelledby="getting-all-the-stocks"></a></h4>
+<p>The <code>init</code> function calls the <code>getAllStocks</code> function on the server and uses the information that the server returns to update the stock table. Notice that, by default, you have to use camelCasing on the client even though the method name is pascal-cased on the server. The camelCasing rule only applies to methods, not objects. For example, you refer to <code>stock.Symbol</code> and <code>stock.Price</code>, not <code>stock.symbol</code> or <code>stock.price</code>.</p>
+<div class="codeHeader" id="code-try-15" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="function init() {
+    ticker.server.getAllStocks().done(function (stocks) {
+        $stockTableBody.empty();
+        $.each(stocks, function () {
+            var stock = formatStock(this);
+            $stockTableBody.append(rowTemplate.supplant(stock));
+        });
+    });
+}
+"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">init</span>(<span class="hljs-params"></span>) </span>{
+    ticker.server.getAllStocks().done(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">stocks</span>) </span>{
+        $stockTableBody.empty();
+        $.each(stocks, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            <span class="hljs-keyword">var</span> stock = formatStock(<span class="hljs-keyword">this</span>);
+            $stockTableBody.append(rowTemplate.supplant(stock));
+        });
+    });
+}
+</code></pre><div class="codeHeader" id="code-try-16" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="public IEnumerable&lt;Stock&gt; GetAllStocks()
+{
+    return _stockTicker.GetAllStocks();
+}
+"><span class="hljs-function"><span class="hljs-keyword">public</span> IEnumerable&lt;Stock&gt; <span class="hljs-title">GetAllStocks</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">return</span> _stockTicker.GetAllStocks();
+}
+</code></pre>
+<p>In the <code>init</code> method, the app creates HTML for a table row for each stock object received from the server by calling <code>formatStock</code> to format properties of the <code>stock</code> object, and then by calling <code>supplant</code> to replace placeholders in the <code>rowTemplate</code> variable with the <code>stock</code> object property values. The resulting HTML is then appended to the stock table.</p>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline" aria-hidden="true"></span> Note</p>
+<p>You call <code>init</code> by passing it in as a <code>callback</code> function that executes after the asynchronous <code>start</code> function finishes. If you called <code>init</code> as a separate JavaScript statement after calling <code>start</code>, the function would fail because it would run immediately without waiting for the start function to finish establishing the connection. In that case, the <code>init</code> function would try to call the <code>getAllStocks</code> function before the app establishes a server connection.</p>
+</div>
+<h4 id="getting-updated-stock-prices">Getting updated stock prices<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#getting-updated-stock-prices" aria-labelledby="getting-updated-stock-prices"></a></h4>
+<p>When the server changes a stock's price, it calls the <code>updateStockPrice</code> on connected clients. The app adds the function to the client property of the <code>stockTicker</code> proxy to make it available to calls from the server.</p>
+<div class="codeHeader" id="code-try-17" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="ticker.client.updateStockPrice = function (stock) {
+    var displayStock = formatStock(stock),
+        $row = $(rowTemplate.supplant(displayStock));
+
+    $stockTableBody.find(&#39;tr[data-symbol=&#39; + stock.Symbol + &#39;]&#39;)
+        .replaceWith($row);
+    }
+">ticker.client.updateStockPrice = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">stock</span>) </span>{
+    <span class="hljs-keyword">var</span> displayStock = formatStock(stock),
+        $row = $(rowTemplate.supplant(displayStock));
+
+    $stockTableBody.find(<span class="hljs-string">'tr[data-symbol='</span> + stock.Symbol + <span class="hljs-string">']'</span>)
+        .replaceWith($row);
+    }
+</code></pre>
+<p>The <code>updateStockPrice</code> function formats a stock object received from the server into a table row the same way as in the <code>init</code> function. Instead of appending the row to the table, it finds the stock's current row in the table and replaces that row with the new one.</p>
+<h2 id="test-the-application">Test the application<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#test-the-application" aria-labelledby="test-the-application"></a></h2>
+<p>You can test the app to make sure it's working. You'll see all browser windows display the live stock table with stock prices fluctuating.</p>
+<ol>
+<li><p>In the toolbar, turn on <strong>Script Debugging</strong> and then select the play button to run the app in Debug mode.</p>
+<p><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/image4.png" alt="Screenshot of user turning on debugging mode and selecting play." data-linktype="relative-path"></p>
+<p>A browser window will open displaying the <strong>Live Stock Table</strong>. The stock table initially shows the "loading..." line, then, after a short time, the app shows the initial stock data, and then the stock prices start to change.</p>
+</li>
+<li><p>Copy the URL from the browser, open two other browsers, and paste the URLs into the address bars.</p>
+<p>The initial stock display is the same as the first browser and changes happen simultaneously.</p>
+</li>
+<li><p>Close all browsers, open a new browser, and go to the same URL.</p>
+<p>The StockTicker singleton object continued to run in the server. The <strong>Live Stock Table</strong> shows that the stocks have continued to change. You don't see the initial table with zero change figures.</p>
+</li>
+<li><p>Close the browser.</p>
+</li>
+</ol>
+<h2 id="enable-logging">Enable logging<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#enable-logging" aria-labelledby="enable-logging"></a></h2>
+<p>SignalR has a built-in logging function that you can enable on the client to aid in troubleshooting. In this section, you enable logging and see examples that show how logs tell you which of the following transport methods SignalR is using:</p>
+<ul>
+<li><p><a href="http://en.wikipedia.org/wiki/WebSocket" data-linktype="external">WebSockets</a>, supported by IIS 8 and current browsers.</p>
+</li>
+<li><p><a href="http://en.wikipedia.org/wiki/Server-sent_events" data-linktype="external">Server-sent events</a>, supported by browsers other than Internet Explorer.</p>
+</li>
+<li><p><a href="http://en.wikipedia.org/wiki/Comet_(programming)#Hidden_iframe" data-linktype="external">Forever frame</a>, supported by Internet Explorer.</p>
+</li>
+<li><p><a href="http://en.wikipedia.org/wiki/Comet_(programming)#Ajax_with_long_polling" data-linktype="external">Ajax long polling</a>, supported by all browsers.</p>
+</li>
+</ul>
+<p>For any given connection, SignalR chooses the best transport method that both the server and the client support.</p>
+<ol>
+<li><p>Open <em>StockTicker.js</em>.</p>
+</li>
+<li><p>Add this highlighted line of code to enable logging immediately before the code that initializes the connection at the end of the file:</p>
+<div class="codeHeader" id="code-try-18" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" highlight-lines="2" data-author-content="// Start the connection
+$.connection.hub.logging = true;
+$.connection.hub.start().done(init);
+"><div class="line-highlight is-absolute" style="top: 1.188rem; left: -15px; width: 300%; height: 1.188rem;"></div><span class="is-relative"><span class="hljs-comment">// Start the connection</span>
+$.connection.hub.logging = <span class="hljs-literal">true</span>;
+$.connection.hub.start().done(init);
+</span></code></pre></li>
+<li><p>Press <strong>F5</strong> to run the project.</p>
+</li>
+<li><p>Open your browser's developer tools window, and select the Console to see the logs. You might have to refresh the page to see the logs of SignalR negotiating the transport method for a new connection.</p>
+<ul>
+<li><p>If you're running Internet Explorer 10 on Windows 8 (IIS 8), the transport method is <strong>WebSockets</strong>.</p>
+</li>
+<li><p>If you're running Internet Explorer 10 on Windows 7 (IIS 7.5), the transport method is <strong>iframe</strong>.</p>
+</li>
+<li><p>If you're running Firefox 19 on Windows 8 (IIS 8), the transport method is <strong>WebSockets</strong>.</p>
+<div class="alert is-success">
+<p class="alert-title"><span class="docon docon-lightbulb" aria-hidden="true"></span> Tip</p>
+<p>In Firefox, install the Firebug add-in to get a Console window.</p>
+</div>
+</li>
+<li><p>If you're running Firefox 19 on Windows 7 (IIS 7.5), the transport method is <strong>server-sent</strong> events.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="install-the-stockticker-sample">Install the StockTicker sample<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#install-the-stockticker-sample" aria-labelledby="install-the-stockticker-sample"></a></h2>
+<p>The <a href="http://nuget.org/packages/microsoft.aspnet.signalr.sample" data-linktype="external">Microsoft.AspNet.SignalR.Sample</a> installs the StockTicker application. The NuGet package includes more features than the simplified version that you created from scratch. In this section of the tutorial, you install the NuGet package and review the new features and the code that implements them.</p>
+<div class="alert is-primary">
+<p class="alert-title"><span class="docon docon-status-info-outline" aria-hidden="true"></span> Important</p>
+<p>If you install the package without performing the earlier steps of this tutorial, you must add an OWIN startup class to your project. This readme.txt file for the NuGet package explains this step.</p>
+</div>
+<h3 id="install-the-signalrsample-nuget-package">Install the SignalR.Sample NuGet package<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#install-the-signalrsample-nuget-package" aria-labelledby="install-the-signalrsample-nuget-package"></a></h3>
+<ol>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Manage NuGet Packages</strong>.</p>
+</li>
+<li><p>In <strong>NuGet Package manager: SignalR.StockTicker</strong>, select <strong>Browse</strong>.</p>
+</li>
+<li><p>From <strong>Package source</strong>, select <strong>nuget.org</strong>.</p>
+</li>
+<li><p>Enter <em>SignalR.Sample</em> in the search box and select <strong>Microsoft.AspNet.SignalR.Sample</strong> &gt; <strong>Install</strong>.</p>
+</li>
+<li><p>In <strong>Solution Explorer</strong>, expand the <em>SignalR.Sample</em> folder.</p>
+<p>Installing the SignalR.Sample package created the folder and its contents.</p>
+</li>
+<li><p>In the <em>SignalR.Sample</em> folder, right-click <em>StockTicker.html</em>, and then select <strong>Set As Start Page</strong>.</p>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline" aria-hidden="true"></span> Note</p>
+<p>Installing The SignalR.Sample NuGet package might change the version of jQuery that you have in your <em>Scripts</em> folder. The new <em>StockTicker.html</em> file that the package installs in the <em>SignalR.Sample</em> folder will be in sync with the jQuery version that the package installs, but if you want to run your original <em>StockTicker.html</em> file again, you might have to update the jQuery reference in the script tag first.</p>
+</div>
+</li>
+</ol>
+<h3 id="run-the-application">Run the application<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#run-the-application" aria-labelledby="run-the-application"></a></h3>
+<p>The table that you saw in the first app had useful features. The full stock ticker application shows new features: a horizontally scrolling window that shows the stock data and stocks that change color as they rise and fall.</p>
+<ol>
+<li><p>Press <strong>F5</strong> to run the app.</p>
+<p>When you run the app for the first time, the "market" is "closed" and you see a static table and a ticker window that isn't scrolling.</p>
+</li>
+<li><p>Select <strong>Open Market</strong>.</p>
+<p><img src="./Tutorial_ Server broadcast with SignalR 2 _ Microsoft Docs_files/image5.png" alt="Screenshot of the live ticker." data-linktype="relative-path"></p>
+<ul>
+<li><p>The <strong>Live Stock Ticker</strong> box starts to scroll horizontally, and the server starts to periodically broadcast stock price changes on a random basis.</p>
+</li>
+<li><p>Each time a stock price changes, the app updates both the <strong>Live Stock Table</strong> and the <strong>Live Stock Ticker</strong>.</p>
+</li>
+<li><p>When a stock's price change is positive, the app shows the stock with a green background.</p>
+</li>
+<li><p>When the change is negative, the app shows the stock with a red background.</p>
+</li>
+</ul>
+</li>
+<li><p>Select <strong>Close Market</strong>.</p>
+<ul>
+<li><p>The table updates stop.</p>
+</li>
+<li><p>The ticker stops scrolling.</p>
+</li>
+</ul>
+</li>
+<li><p>Select <strong>Reset</strong>.</p>
+<ul>
+<li><p>All stock data is reset.</p>
+</li>
+<li><p>The app restores the initial state before price changes started.</p>
+</li>
+</ul>
+</li>
+<li><p>Copy the URL from the browser, open two other browsers, and paste the URLs into the address bars.</p>
+</li>
+<li><p>You see the same data dynamically updated at the same time in each browser.</p>
+</li>
+<li><p>When you select any of the controls, all browsers respond the same way at the same time.</p>
+</li>
+</ol>
+<h3 id="live-stock-ticker-display">Live Stock Ticker display<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#live-stock-ticker-display" aria-labelledby="live-stock-ticker-display"></a></h3>
+<p>The <strong>Live Stock Ticker</strong> display is an unordered list in a <code>&lt;div&gt;</code> element formatted into a single line by CSS styles. The app initializes and updates the ticker the same way as the table: by replacing placeholders in an <code>&lt;li&gt;</code> template string and dynamically adding the <code>&lt;li&gt;</code> elements to the <code>&lt;ul&gt;</code> element. The app includes  scrolling by using the jQuery <code>animate</code> function to vary the margin-left of the unordered list within the <code>&lt;div&gt;</code>.</p>
+<h4 id="signalrsample-stocktickerhtml">SignalR.Sample StockTicker.html<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#signalrsample-stocktickerhtml" aria-labelledby="signalrsample-stocktickerhtml"></a></h4>
+<p>The stock ticker HTML code:</p>
+<div class="codeHeader" id="code-try-19" data-bi-name="code-header"><span class="language">HTML</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-html" name="Main" data-author-content="&lt;h2&gt;Live Stock Ticker&lt;/h2&gt;
+&lt;div id=&quot;stockTicker&quot;&gt;
+    &lt;div class=&quot;inner&quot;&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;loading&quot;&gt;loading...&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Live Stock Ticker<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"stockTicker"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"inner"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"loading"</span>&gt;</span>loading...<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre><h4 id="signalrsample-stocktickercss">SignalR.Sample StockTicker.css<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#signalrsample-stocktickercss" aria-labelledby="signalrsample-stocktickercss"></a></h4>
+<p>The stock ticker CSS code:</p>
+<div class="codeHeader" id="code-try-20" data-bi-name="code-header"><span class="language">HTML</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-html" name="Main" data-author-content="#stockTicker {
+    overflow: hidden;
+    width: 450px;
+    height: 24px;
+    border: 1px solid #999;
+    }
+
+    #stockTicker .inner {
+        width: 9999px;
+    }
+
+    #stockTicker ul {
+        display: inline-block;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #stockTicker li {
+        display: inline-block;
+        margin-right: 8px;   
+    }
+
+    /*&lt;li data-symbol=&quot;{Symbol}&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;{Symbol}&lt;/span&gt;&lt;span class=&quot;price&quot;&gt;{Price}&lt;/span&gt;&lt;span class=&quot;change&quot;&gt;{PercentChange}&lt;/span&gt;&lt;/li&gt;*/
+    #stockTicker .symbol {
+        font-weight: bold;
+    }
+
+    #stockTicker .change {
+        font-style: italic;
+    }
+">#stockTicker {
+    overflow: hidden;
+    width: 450px;
+    height: 24px;
+    border: 1px solid #999;
+    }
+
+    #stockTicker .inner {
+        width: 9999px;
+    }
+
+    #stockTicker ul {
+        display: inline-block;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #stockTicker li {
+        display: inline-block;
+        margin-right: 8px;   
+    }
+
+    /*<span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">data-symbol</span>=<span class="hljs-string">"{Symbol}"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"symbol"</span>&gt;</span>{Symbol}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"price"</span>&gt;</span>{Price}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"change"</span>&gt;</span>{PercentChange}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>*/
+    #stockTicker .symbol {
+        font-weight: bold;
+    }
+
+    #stockTicker .change {
+        font-style: italic;
+    }
+</code></pre><h4 id="signalrsample-signalrstocktickerjs">SignalR.Sample SignalR.StockTicker.js<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#signalrsample-signalrstocktickerjs" aria-labelledby="signalrsample-signalrstocktickerjs"></a></h4>
+<p>The jQuery code that makes it scroll:</p>
+<div class="codeHeader" id="code-try-21" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="function scrollTicker() {
+    var w = $stockTickerUl.width();
+    $stockTickerUl.css({ marginLeft: w });
+    $stockTickerUl.animate({ marginLeft: -w }, 15000, &#39;linear&#39;, scrollTicker);
+}
+"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">scrollTicker</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> w = $stockTickerUl.width();
+    $stockTickerUl.css({ <span class="hljs-attr">marginLeft</span>: w });
+    $stockTickerUl.animate({ <span class="hljs-attr">marginLeft</span>: -w }, <span class="hljs-number">15000</span>, <span class="hljs-string">'linear'</span>, scrollTicker);
+}
+</code></pre><h3 id="additional-methods-on-the-server-that-the-client-can-call">Additional methods on the server that the client can call<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#additional-methods-on-the-server-that-the-client-can-call" aria-labelledby="additional-methods-on-the-server-that-the-client-can-call"></a></h3>
+<p>To add flexibility to the app, there are additional methods the app can call.</p>
+<h4 id="signalrsample-stocktickerhubcs">SignalR.Sample StockTickerHub.cs<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#signalrsample-stocktickerhubcs" aria-labelledby="signalrsample-stocktickerhubcs"></a></h4>
+<p>The <code>StockTickerHub</code> class defines four additional methods that the client can call:</p>
+<div class="codeHeader" id="code-try-22" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="public string GetMarketState()
+{
+    return _stockTicker.MarketState.ToString();
+}
+
+public void OpenMarket()
+{
+    _stockTicker.OpenMarket();
+}
+
+public void CloseMarket()
+{
+    _stockTicker.CloseMarket();
+}
+
+public void Reset()
+{
+    _stockTicker.Reset();
+}
+"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> <span class="hljs-title">GetMarketState</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">return</span> _stockTicker.MarketState.ToString();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OpenMarket</span>(<span class="hljs-params"></span>)</span>
+{
+    _stockTicker.OpenMarket();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CloseMarket</span>(<span class="hljs-params"></span>)</span>
+{
+    _stockTicker.CloseMarket();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Reset</span>(<span class="hljs-params"></span>)</span>
+{
+    _stockTicker.Reset();
+}
+</code></pre>
+<p>The app calls <code>OpenMarket</code>, <code>CloseMarket</code>, and <code>Reset</code> in response to the buttons at the top of the page. They demonstrate the pattern of one client triggering a change in state immediately propagated to all clients. Each of these methods calls a method in the <code>StockTicker</code> class that causes the market state change and then broadcasts the new state.</p>
+<h4 id="signalrsample-stocktickercs">SignalR.Sample StockTicker.cs<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#signalrsample-stocktickercs" aria-labelledby="signalrsample-stocktickercs"></a></h4>
+<p>In the <code>StockTicker</code> class, the app maintains the state of the market with a <code>MarketState</code> property that returns a <code>MarketState</code> enum value:</p>
+<div class="codeHeader" id="code-try-23" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="public MarketState MarketState
+{
+    get { return _marketState; }
+    private set { _marketState = value; }
+}
+
+public enum MarketState
+{
+    Closed,
+    Open
+}
+"><span class="hljs-keyword">public</span> MarketState MarketState
+{
+    <span class="hljs-keyword">get</span> { <span class="hljs-keyword">return</span> _marketState; }
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span> { _marketState = <span class="hljs-keyword">value</span>; }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> MarketState
+{
+    Closed,
+    Open
+}
+</code></pre>
+<p>Each of the methods that change the market state do so inside a lock block because the <code>StockTicker</code> class has to be thread-safe:</p>
+<div class="codeHeader" id="code-try-24" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="public void OpenMarket()
+{
+    lock (_marketStateLock)
+    {
+        if (MarketState != MarketState.Open)
+        {
+            _timer = new Timer(UpdateStockPrices, null, _updateInterval, _updateInterval);
+            MarketState = MarketState.Open;
+            BroadcastMarketStateChange(MarketState.Open);
+        }
+    }
+}
+
+public void CloseMarket()
+{
+    lock (_marketStateLock)
+    {
+        if (MarketState == MarketState.Open)
+        {
+            if (_timer != null)
+            {
+                _timer.Dispose();
+            }
+            MarketState = MarketState.Closed;
+            BroadcastMarketStateChange(MarketState.Closed);
+        }
+    }
+}
+
+public void Reset()
+{
+    lock (_marketStateLock)
+    {
+        if (MarketState != MarketState.Closed)
+        {
+            throw new InvalidOperationException(&quot;Market must be closed before it can be reset.&quot;);
+        }
+        LoadDefaultStocks();
+        BroadcastMarketReset();
+    }
+}
+"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OpenMarket</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">lock</span> (_marketStateLock)
+    {
+        <span class="hljs-keyword">if</span> (MarketState != MarketState.Open)
+        {
+            _timer = <span class="hljs-keyword">new</span> Timer(UpdateStockPrices, <span class="hljs-literal">null</span>, _updateInterval, _updateInterval);
+            MarketState = MarketState.Open;
+            BroadcastMarketStateChange(MarketState.Open);
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CloseMarket</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">lock</span> (_marketStateLock)
+    {
+        <span class="hljs-keyword">if</span> (MarketState == MarketState.Open)
+        {
+            <span class="hljs-keyword">if</span> (_timer != <span class="hljs-literal">null</span>)
+            {
+                _timer.Dispose();
+            }
+            MarketState = MarketState.Closed;
+            BroadcastMarketStateChange(MarketState.Closed);
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Reset</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">lock</span> (_marketStateLock)
+    {
+        <span class="hljs-keyword">if</span> (MarketState != MarketState.Closed)
+        {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException(<span class="hljs-string">"Market must be closed before it can be reset."</span>);
+        }
+        LoadDefaultStocks();
+        BroadcastMarketReset();
+    }
+}
+</code></pre>
+<p>To make sure this code is thread-safe, the <code>_marketState</code> field that backs the <code>MarketState</code> property designated <code>volatile</code>:</p>
+<div class="codeHeader" id="code-try-25" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="private volatile MarketState _marketState;
+"><span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> MarketState _marketState;
+</code></pre>
+<p>The <code>BroadcastMarketStateChange</code> and <code>BroadcastMarketReset</code> methods are similar to the BroadcastStockPrice method that you already saw, except they call different methods defined at the client:</p>
+<div class="codeHeader" id="code-try-26" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="private void BroadcastMarketStateChange(MarketState marketState)
+{
+    switch (marketState)
+    {
+        case MarketState.Open:
+            Clients.All.marketOpened();
+            break;
+        case MarketState.Closed:
+            Clients.All.marketClosed();
+            break;
+        default:
+            break;
+    }
+}
+
+private void BroadcastMarketReset()
+{
+    Clients.All.marketReset();
+}
+"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BroadcastMarketStateChange</span>(<span class="hljs-params">MarketState marketState</span>)</span>
+{
+    <span class="hljs-keyword">switch</span> (marketState)
+    {
+        <span class="hljs-keyword">case</span> MarketState.Open:
+            Clients.All.marketOpened();
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> MarketState.Closed:
+            Clients.All.marketClosed();
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">break</span>;
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">BroadcastMarketReset</span>(<span class="hljs-params"></span>)</span>
+{
+    Clients.All.marketReset();
+}
+</code></pre><h3 id="additional-functions-on-the-client-that-the-server-can-call">Additional functions on the client that the server can call<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#additional-functions-on-the-client-that-the-server-can-call" aria-labelledby="additional-functions-on-the-client-that-the-server-can-call"></a></h3>
+<p>The <code>updateStockPrice</code> function now handles both the table and the ticker display, and it uses <code>jQuery.Color</code> to flash red and green colors.</p>
+<p>New functions in <em>SignalR.StockTicker.js</em> enable and disable the buttons based on market state. They also stop or start the <strong>Live Stock Ticker</strong> horizontal scrolling. Since many functions are being added to <code>ticker.client</code>, the app uses the <a href="http://api.jquery.com/jQuery.extend/" data-linktype="external">jQuery extend function</a> to add them.</p>
+<div class="codeHeader" id="code-try-27" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="$.extend(ticker.client, {
+    updateStockPrice: function (stock) {
+        var displayStock = formatStock(stock),
+            $row = $(rowTemplate.supplant(displayStock)),
+            $li = $(liTemplate.supplant(displayStock)),
+            bg = stock.LastChange === 0
+                ? &#39;255,216,0&#39; // yellow
+                : stock.LastChange &gt; 0
+                    ? &#39;154,240,117&#39; // green
+                    : &#39;255,148,148&#39;; // red
+
+        $stockTableBody.find(&#39;tr[data-symbol=&#39; + stock.Symbol + &#39;]&#39;)
+            .replaceWith($row);
+        $stockTickerUl.find(&#39;li[data-symbol=&#39; + stock.Symbol + &#39;]&#39;)
+            .replaceWith($li);
+
+        $row.flash(bg, 1000);
+        $li.flash(bg, 1000);
+    },
+
+    marketOpened: function () {
+        $(&quot;#open&quot;).prop(&quot;disabled&quot;, true);
+        $(&quot;#close&quot;).prop(&quot;disabled&quot;, false);
+        $(&quot;#reset&quot;).prop(&quot;disabled&quot;, true);
+        scrollTicker();
+    },
+
+    marketClosed: function () {
+        $(&quot;#open&quot;).prop(&quot;disabled&quot;, false);
+        $(&quot;#close&quot;).prop(&quot;disabled&quot;, true);
+        $(&quot;#reset&quot;).prop(&quot;disabled&quot;, false);
+        stopTicker();
+    },
+
+    marketReset: function () {
+        return init();
+    }
+});
+">$.extend(ticker.client, {
+    <span class="hljs-attr">updateStockPrice</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">stock</span>) </span>{
+        <span class="hljs-keyword">var</span> displayStock = formatStock(stock),
+            $row = $(rowTemplate.supplant(displayStock)),
+            $li = $(liTemplate.supplant(displayStock)),
+            bg = stock.LastChange === <span class="hljs-number">0</span>
+                ? <span class="hljs-string">'255,216,0'</span> <span class="hljs-comment">// yellow</span>
+                : stock.LastChange &gt; <span class="hljs-number">0</span>
+                    ? <span class="hljs-string">'154,240,117'</span> <span class="hljs-comment">// green</span>
+                    : <span class="hljs-string">'255,148,148'</span>; <span class="hljs-comment">// red</span>
+
+        $stockTableBody.find(<span class="hljs-string">'tr[data-symbol='</span> + stock.Symbol + <span class="hljs-string">']'</span>)
+            .replaceWith($row);
+        $stockTickerUl.find(<span class="hljs-string">'li[data-symbol='</span> + stock.Symbol + <span class="hljs-string">']'</span>)
+            .replaceWith($li);
+
+        $row.flash(bg, <span class="hljs-number">1000</span>);
+        $li.flash(bg, <span class="hljs-number">1000</span>);
+    },
+
+    <span class="hljs-attr">marketOpened</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        $(<span class="hljs-string">"#open"</span>).prop(<span class="hljs-string">"disabled"</span>, <span class="hljs-literal">true</span>);
+        $(<span class="hljs-string">"#close"</span>).prop(<span class="hljs-string">"disabled"</span>, <span class="hljs-literal">false</span>);
+        $(<span class="hljs-string">"#reset"</span>).prop(<span class="hljs-string">"disabled"</span>, <span class="hljs-literal">true</span>);
+        scrollTicker();
+    },
+
+    <span class="hljs-attr">marketClosed</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        $(<span class="hljs-string">"#open"</span>).prop(<span class="hljs-string">"disabled"</span>, <span class="hljs-literal">false</span>);
+        $(<span class="hljs-string">"#close"</span>).prop(<span class="hljs-string">"disabled"</span>, <span class="hljs-literal">true</span>);
+        $(<span class="hljs-string">"#reset"</span>).prop(<span class="hljs-string">"disabled"</span>, <span class="hljs-literal">false</span>);
+        stopTicker();
+    },
+
+    <span class="hljs-attr">marketReset</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> init();
+    }
+});
+</code></pre><h3 id="additional-client-setup-after-establishing-the-connection">Additional client setup after establishing the connection<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#additional-client-setup-after-establishing-the-connection" aria-labelledby="additional-client-setup-after-establishing-the-connection"></a></h3>
+<p>After the client establishes the connection, it has some additional work to do:</p>
+<ul>
+<li><p>Find out if the market is open or closed to call the appropriate <code>marketOpened</code> or <code>marketClosed</code> function.</p>
+</li>
+<li><p>Attach the server method calls to the buttons.</p>
+</li>
+</ul>
+<div class="codeHeader" id="code-try-28" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="$.connection.hub.start()
+    .pipe(init)
+    .pipe(function () {
+        return ticker.server.getMarketState();
+    })
+    .done(function (state) {
+        if (state === &#39;Open&#39;) {
+            ticker.client.marketOpened();
+        } else {
+            ticker.client.marketClosed();
+        }
+
+        // Wire up the buttons
+        $(&quot;#open&quot;).click(function () {
+            ticker.server.openMarket();
+        });
+
+        $(&quot;#close&quot;).click(function () {
+            ticker.server.closeMarket();
+        });
+
+        $(&quot;#reset&quot;).click(function () {
+            ticker.server.reset();
+        });
+    });
+">$.connection.hub.start()
+    .pipe(init)
+    .pipe(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> ticker.server.getMarketState();
+    })
+    .done(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">state</span>) </span>{
+        <span class="hljs-keyword">if</span> (state === <span class="hljs-string">'Open'</span>) {
+            ticker.client.marketOpened();
+        } <span class="hljs-keyword">else</span> {
+            ticker.client.marketClosed();
+        }
+
+        <span class="hljs-comment">// Wire up the buttons</span>
+        $(<span class="hljs-string">"#open"</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            ticker.server.openMarket();
+        });
+
+        $(<span class="hljs-string">"#close"</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            ticker.server.closeMarket();
+        });
+
+        $(<span class="hljs-string">"#reset"</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            ticker.server.reset();
+        });
+    });
+</code></pre>
+<p>The server methods aren't wired up to the buttons until after the app establishes the connection. It's so the code can't call the server methods before they're available.</p>
+<h2 id="additional-resources">Additional resources<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#additional-resources" aria-labelledby="additional-resources"></a></h2>
+<p>In this tutorial you've learned how to program a SignalR application that broadcasts messages from the server to all connected clients. Now you can broadcast messages on a periodic basis and in response to notifications from any client. You can use the concept of multi-threaded singleton instance to maintain server state in multi-player online game scenarios. For an example, see <a href="https://github.com/NTaylorMullen/ShootR" data-linktype="external">the ShootR game based on SignalR</a>.</p>
+<p>For tutorials that show peer-to-peer communication scenarios, see <a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/introduction-to-signalr" data-linktype="relative-path">Getting Started with SignalR</a> and <a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-high-frequency-realtime-with-signalr" data-linktype="relative-path">Real-Time Updating with SignalR</a>.</p>
+<p>For more about SignalR, see the following resources:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/index" data-linktype="relative-path">ASP.NET SignalR</a></li>
+<li><a href="http://signalr.net/" data-linktype="external">SignalR Project</a></li>
+<li><a href="https://github.com/SignalR/SignalR" data-linktype="external">SignalR GitHub and Samples</a></li>
+<li><a href="https://github.com/SignalR/SignalR/wiki" data-linktype="external">SignalR Wiki</a></li>
+</ul>
+<h2 id="next-steps">Next steps<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#next-steps" aria-labelledby="next-steps"></a></h2>
+<p>In this tutorial, you:</p>
+<div class="checklist">
+<ul>
+<li>Created the project</li>
+<li>Set up the server code</li>
+<li>Examined the server code</li>
+<li>Set up the client code</li>
+<li>Examined the client code</li>
+<li>Tested the application</li>
+<li>Enabled logging</li>
+</ul>
+</div>
+<p>Advance to the next article to learn how to create a real-time web application that uses ASP.NET SignalR 2.</p>
+<div class="nextstepaction">
+<p><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/real-time-web-applications-with-signalr" data-linktype="relative-path" class="button is-primary has-text-wrap">Create real-time web app with SignalR</a></p>
+</div>
+
+						<!-- </content> -->
+
+						</main>
+
+						<!-- rating mobile section -->
+						<!-- end rating mobile section -->
+
+						<!-- feedback section -->
+
+
+
+
+
+						<!-- end feedback section -->
+
+						<div class="footerContainer is-visible-interactive has-default-focus ">
+<footer id="footer-interactive" data-bi-name="footer" class="footer-layout">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="https://docs.microsoft.com/en-us/locale?target=https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small" aria-hidden="true"></span><span class="local-selector-link-text has-inner-focus">English (United States)</span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>
+						</div>
+					</div>
+
+					<div id="page-actions" class="right-container column is-one-quarter is-one-fifth-desktop is-hidden-mobile is-hidden-tablet-only" data-bi-name="pageactions" role="complementary" aria-label="Page Actions">
+							<div id="affixed-right-container" class="doc-outline is-fixed is-vertically-scrollable" style="width: 119.156px; top: 24px; bottom: 24px;">
+<div data-bi-name="rating" class="feedback-verbatim has-border-bottom has-padding-bottom-small has-margin-bottom-small">
+	<div class="binary-rating">
+		<div class="binary-rating-buttons">
+			<h3 class="has-text-weight-semibold has-margin-top-none has-margin-bottom-small">Is this page helpful?</h3>
+			<div>
+				<button class="thumb-rating like has-inner-focus has-padding-left-extra-small has-padding-right-extra-small" title="Yes" data-bi-name="rating-yes" data-bi-sat="1">
+					<span class="icon docon docon-like" aria-hidden="true"></span><span>Yes</span>
+				</button>
+				<button class="thumb-rating dislike has-inner-focus has-padding-none has-padding-right-extra-small" title="No" data-bi-name="rating-no" data-bi-sat="0" aria-expanded="false" aria-haspopup="true" aria-controls="rating-feedback">
+					<span class="icon docon docon-dislike" aria-hidden="true"></span><span>No</span>
+				</button>
+			</div>
+		</div>
+		<form class="feedback-verbatim-form is-hidden">
+			<div class="verbatim-textarea box is-relative has-box-shadow-none has-border has-margin-top-small has-padding-extra-small is-size-8">
+				<label for="rating-feedback-mobile" class="visually-hidden">Any additional feedback?</label>
+				<textarea id="rating-feedback-mobile" rows="4" maxlength="999" placeholder="Any additional feedback?" required="" class="textarea has-border-none has-box-shadow-none has-inner-focus"></textarea>
+			</div>
+			<div class="buttons is-right has-margin-top-medium has-margin-right-extra-small">
+				<button class="skip-rating button is-text is-link is-small" type="button">Skip</button>
+				<button disabled="" class="submit-rating button is-primary is-small" type="submit" data-bi-name="rating-verbatim">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div class="thankyou-rating is-hidden">
+		<p>Thank you.</p>
+	</div>
+</div>								<nav id="side-doc-outline" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+									<h3>In this article</h3>
+								<ol><li class=""><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#prerequisites">Prerequisites</a></li><li class=""><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#create-the-project">Create the project</a></li><li class=""><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#set-up-the-server-code">Set up the server code</a></li><li class=""><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#set-up-the-client-code">Set up the client code</a></li><li class=""><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#test-the-application">Test the application</a></li><li class=""><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#enable-logging">Enable logging</a></li><li class="selected"><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#install-the-stockticker-sample">Install the StockTicker sample</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#additional-resources">Additional resources</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr#next-steps">Next steps</a></li></ol></nav>
+							</div>
+					</div>
+
+					<!--end of div.columns -->
+				</div>
+
+			<!--end of .primary-holder -->
+			</section>
+
+			<aside id="interactive-container" class="interactive-container is-visible-interactive column has-body-background-dark ">
+			</aside>
+		</div>
+
+		<!--end of .mainContainer -->
+	</div>
+
+	<div id="openFeedbackContainer" class="openfeedback-container"></div>
+
+	<div class="footerContainer has-default-focus is-hidden-interactive ">
+<footer id="footer" data-bi-name="footer" class="footer-layout uhf-container has-padding" role="contentinfo">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="https://docs.microsoft.com/en-us/locale?target=https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small" aria-hidden="true"></span><span class="local-selector-link-text">English (United States)</span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>
+	</div>
+
+	<div id="action-panel" role="region" aria-label="Action Panel" class="action-panel has-default-focus" tabindex="-1" aria-expanded="false"></div>
+
+
+</body></html>

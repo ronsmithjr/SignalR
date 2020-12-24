@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ASP.NET SignalR Stock Ticker</title>
+    <style>
+        body{
+            font-family: 'Segoe UI', Arial, Arial, Helvetica, sans-serif;
+        }
+        #stockTable table{
+            border-collapse: collapse;
+        }
+        #stockTable table th, #stockTable table td{
+            padding: 2px 6px;
+        }
+        #stockTable table td {
+            text-align: right;
+        }
+        #stockTable .loading td{
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>ASP.NET SignalR Stock Ticker Sample</h1>
+    <h2>Live Stock Table</h2>
+    <div id="stockTable">
+        <table border="1">
+            <thead>
+                <tr><th>Symbol</th><th>Price</th><th>Open</th><th>Change</th><th>%</th></tr>
+            </thead>
+            <tbody>
+                <tr class="loading"><td colspan="5">loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="Scripts/jquery-3.3.1.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <script src="StockTicker.js"></script>
+
+</body>
+</html>

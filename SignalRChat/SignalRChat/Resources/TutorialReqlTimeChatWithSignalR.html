@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<!-- saved from url=(0110)https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr -->
+<html class="hasSidebar hasPageActions hasBreadcrumb conceptual has-default-focus js-focus-visible theme-light" lang="en-us" dir="ltr" data-css-variable-support="true" data-authenticated="false" data-auth-status-determined="true" data-target="docs" x-ms-format-detection="none"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:title" content="Tutorial: Real-time chat with SignalR 2">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr">
+		<meta property="og:description" content="This tutorial shows how to use SignalR to create a real-time chat application. You add SignalR to an empty ASP.NET web application.">
+		<meta property="og:image" content="https://docs.microsoft.com/en-us/media/logos/logo-ms-social.png">
+		<meta property="og:image:alt" content="Microsoft Logo">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@docsmsft">
+
+		<meta name="breadcrumb_path" content="/aspnet/breadcrumb/toc.json">
+<meta name="ms.topic" content="tutorial">
+<meta name="ms.technology" content="aspnet-signalr">
+<meta name="ms.prod" content="aspnet-framework">
+<meta name="uhfHeaderId" content="MSDocsHeader-DotNet">
+<meta name="msc.legacyurl" content="/signalr/overview/getting-started/tutorial-getting-started-with-signalr">
+<meta name="ms.assetid" content="a8b3b778-f009-4369-85c7-e90f9878d8b4">
+<meta name="msc.type" content="authoredcontent">
+<meta name="author" content="bradygaster">
+<meta name="description" content="This tutorial shows how to use SignalR to create a real-time chat application. You add SignalR to an empty ASP.NET web application.">
+<meta name="ms.author" content="bradyg">
+<meta name="uid" content="signalr/overview/getting-started/tutorial-getting-started-with-signalr">
+<meta name="ms.date" content="01/22/2019">
+<meta name="search.ms_sitename" content="Docs">
+<meta name="search.ms_docsetname" content="AspNetDocs">
+<meta name="version" content="0">
+<meta name="locale" content="en-us">
+<meta name="site_name" content="Docs">
+<meta name="search.ms_product" content="MSDN">
+<meta name="depot_name" content="MSDN.AspNetDocs">
+<meta name="updated_at" content="2019-04-18 08:39 PM">
+<meta name="gitcommit" content="https://github.com/aspnet/AspNetDocs/blob/5712e8c86fff3cb744f41924d437dddcb272e4f1/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr.md">
+<meta name="original_content_git_url" content="https://github.com/aspnet/AspNetDocs/blob/live/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr.md">
+<meta name="document_id" content="d1b2f49d-01a4-6cdf-a730-f1e83420c0c1">
+<meta name="document_version_independent_id" content="7dd1a9db-ad5d-b33b-a565-1bb580c47738">
+<meta name="page_type" content="conceptual">
+<meta name="toc_rel" content="../../../toc.json">
+<meta name="pdf_url_template" content="https://docs.microsoft.com/pdfstore/en-us/MSDN.AspNetDocs/{branchName}{pdfName}">
+<meta name="word_count" content="1357">
+
+	<meta name="scope" content="ASP.NET">
+<link href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr" rel="canonical">
+	<title>Tutorial: Real-time chat with SignalR 2 | Microsoft Docs</title>
+
+		<link rel="stylesheet" href="./TutorialReqlTimeChatWithSignalR_files/28c242d6.site-ltr.css">
+
+	<link rel="stylesheet" href="./TutorialReqlTimeChatWithSignalR_files/b8d322.conceptual.css">
+
+
+	<script async="" src="./TutorialReqlTimeChatWithSignalR_files/analytics.js.download"></script><script>
+	var msDocs = {
+		data: {
+			timeOrigin: Date.now(),
+			azureHeaderLocale: 'en-us',
+			contentLocale: 'en-us',
+			contentDir: 'ltr',
+			userLocale: 'en-us',
+			userDir: 'ltr',
+			pageTemplate: 'Conceptual',
+			brand: '',
+			context: {
+
+			},
+			hasComments: false,
+			feedbackSystem: 'None',
+			feedbackGitHubRepo: '',
+			feedbackProductUrl: '',
+			contentGitUrl: 'https://github.com/aspnet/AspNetDocs/blob/master/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr.md',
+			extendBreadcrumb: false,
+			auth: 'v2',
+		},
+		functions:{}
+	};
+	if (!('Promise' in window && 'resolve' in window.Promise && 'reject' in window.Promise && 'all' in window.Promise && 'race' in window.Promise)) {
+		document.write('<script src="https://static.docs.com/ui/third-party/bluebird/3.5.0/bluebird.min.js" integrity="sha384-aD4BDeDGeLXLpPK4yKeqtZQa9dv4a/7mQ+4L5vwshIYH1Mc2BrXvHd32iHzYCQy5" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof fetch !== 'function') {
+		document.write('<script src="https://static.docs.com/ui/third-party/fetch/2.0.3/fetch.min.js" integrity="sha384-H3LQq82b6Mm80GYRHtRSlTwO9DoXctmYCVEYk9M8mp97lRzs6DuSrHVUg3SBP9w0" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof HTMLTemplateElement === 'undefined') {
+		document.write('<script src="https://static.docs.com/ui/third-party/template/1.4.0/template.min.js" integrity="sha384-1zKzI6ldTVHMU7n0W2HpE/lhHI+UG4D9IIaxbj3kT2UhCWicdTuJkTtnKuu0CQzN" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof URL !== 'function') {
+		document.write('<script src="https://static.docs.com/ui/third-party/url/0.5.7/url.min.js" integrity="sha384-vn7xBMtpSTfzaTRWxj0kVq0UcsbBrTOgZ/M1ISHqe1V358elYva+lfiEC+T8jLPc" crossorigin="anonymous"><\/script>');
+	}
+	</script>
+
+	<script src="./TutorialReqlTimeChatWithSignalR_files/jquery-3.3.1.min.js.download" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+		<script src="./TutorialReqlTimeChatWithSignalR_files/e0689d20.index-docs.js.download"></script><style></style><script src="./TutorialReqlTimeChatWithSignalR_files/jsll-4.js.download" async="" defer=""></script>
+
+<script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js.download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(1).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(2).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(3).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(4).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(5).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(6).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(7).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(8).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(9).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(10).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(11).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(12).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(13).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(14).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(15).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(16).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(17).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(18).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(19).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(20).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(21).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(22).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(23).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(24).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(25).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(26).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(27).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(28).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(29).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(30).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(31).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(32).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(33).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(34).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(35).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(36).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(37).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(38).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(39).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(40).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(41).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(42).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(43).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(44).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(45).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(46).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(47).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(48).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(49).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(50).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(51).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(52).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(53).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(54).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(55).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(56).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(57).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(58).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(59).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(60).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(61).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(62).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(63).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(64).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(65).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(66).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(67).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(68).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(69).download"></script><script async="" src="./TutorialReqlTimeChatWithSignalR_files/t.js(70).download"></script><script async="" src="https://web.vortex.data.microsoft.com/collect/v1/t.js?ver=%272.1%27&amp;name=%27Ms.Webi.ContentUpdate%27&amp;time=%272019-09-22T19%3A29%3A07.501Z%27&amp;os=%27Windows%27&amp;appId=%27JS%3ADocs%27&amp;-ver=%271.0%27&amp;-impressionGuid=%2780deacd0-9520-49d2-821a-f1e19d0eb119%27&amp;-pageName=%27d1b2f49d-01a4-6cdf-a730-f1e83420c0c1%27&amp;-uri=%27https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-getting-started-with-signalr%27&amp;-market=%27en-us%27&amp;-pageTags=%27%7B%22pgtop%22%3A%22tutorial%22%2C%22technology%22%3A%22aspnet-signalr%22%2C%22product%22%3A%22aspnet-framework%22%2C%22asst%22%3A%22a8b3b778-f009-4369-85c7-e90f9878d8b4%22%2C%22author%22%3A%22bradygaster%22%2C%22pgauth%22%3A%22bradyg%22%2C%22date%22%3A%2201%2F22%2F2019%22%2C%22depotname%22%3A%22MSDN.AspNetDocs%22%2C%22publishtime%22%3A%222019-04-18%2008%3A39%20PM%22%2C%22gitcommit%22%3A%22https%3A%2F%2Fgithub.com%2Faspnet%2FAspNetDocs%2Fblob%2F5712e8c86fff3cb744f41924d437dddcb272e4f1%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-getting-started-with-signalr.md%22%2C%22giturl%22%3A%22https%3A%2F%2Fgithub.com%2Faspnet%2FAspNetDocs%2Fblob%2Flive%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-getting-started-with-signalr.md%22%2C%22document_version_independent_id%22%3A%227dd1a9db-ad5d-b33b-a565-1bb580c47738%22%2C%22contentlocale%22%3A%22en-us%22%2C%22highContrast%22%3A%22false%22%2C%22metaTags%22%3A%7B%7D%7D%27&amp;-pageHeight=9197&amp;-vpHeight=742&amp;-vpWidth=1536&amp;-actionType=%27R%27&amp;-behavior=0&amp;-vScrollOffset=3920&amp;-hScrollOffset=0&amp;-contentVer=%272.0%27&amp;-content=%27%5B%5D%27&amp;*baseType=%27Ms.Content.ContentUpdate%27&amp;*title=%27Tutorial%3A%20Real-time%20chat%20with%20SignalR%202%20%7C%20Microsoft%20Docs%27&amp;*cookieEnabled=true&amp;*isJs=true&amp;*isDomComplete=false&amp;*isLoggedIn=false&amp;ext-javascript-ver=%271.1%27&amp;ext-javascript-libVer=%274.2.14%27&amp;ext-javascript-domain=%27docs.microsoft.com%27&amp;ext-javascript-msfpc=%27GUID%3D6547be4f79ef437b9695af3ce7c5a83f%26HASH%3D6547%26LV%3D201908%26V%3D4%26LU%3D1565218891178%27&amp;ext-javascript-userConsent=false&amp;ext-javascript-anid=%27A%3DD7B362B5DDF68541A8112D53FFFFFFFF%27&amp;ext-user-localId=%27t%3A3A187942036A6E072A257506076A6D94%27&amp;$mscomCookies=false"></script></head>
+
+<body lang="en-us" dir="ltr">
+<div class="header-holder has-default-focus">
+	<a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#main" class="skip-to-main-link visually-hidden-until-focused is-fixed has-inner-focus focus-visible has-top-zero has-left-zero has-right-zero has-padding-medium has-text-centered has-body-background-medium" tabindex="1">Skip to main content</a>
+		<div id="headerAreaHolder" data-bi-name="header"><!----><!----><header class="nav-bar" role="banner" itemscope="itemscope" itemtype="http://schema.org/Organization"><!---->
+		
+		<button class="nav-bar-burger" aria-label="Global navigation" aria-controls="ax-24" aria-expanded="false">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+		<nav class="nav-bar-mobile-nav" role="navigation" id="ax-24" aria-label="Global" hidden="">
+			<ul class="nav-bar-mobile-nav-list">
+				<!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/"><!---->.NET<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet"><!---->About<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn"><!---->Learn<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides"><!---->Architecture<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://docs.microsoft.com/dotnet"><!---->Docs<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/download"><!---->Downloads<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/platform/community"><!---->Community<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro"><!---->Get Started<!----></a>
+		</li><!---->
+			</ul>
+		</nav>
+		
+		<a class="nav-bar-button" itemprop="url" href="https://www.microsoft.com/" aria-label="Microsoft">
+			<div class="nav-bar-logo has-background-image theme-display is-light" role="presentation" aria-hidden="true" itemprop="logo" itemscope="itemscope"></div>
+			<div class="nav-bar-logo has-background-image theme-display is-dark is-high-contrast" role="presentation" aria-hidden="true" itemprop="logo" itemscope="itemscope"></div>
+		</a>
+		<nav class="nav-bar-nav" role="navigation" aria-label="Global">
+			<ul class="nav-bar-nav-list">
+				
+		<li class="nav-bar-item is-category has-spacing">
+			<a class="nav-bar-button title has-hover-underline is-4" itemprop="url" href="https://dotnet.microsoft.com/">
+				<span><!---->.NET<!----></span>
+			</a>
+		</li>
+				<!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet">
+				<span><!---->About<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn">
+				<span><!---->Learn<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides">
+				<span><!---->Architecture<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://docs.microsoft.com/dotnet">
+				<span><!---->Docs<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/download">
+				<span><!---->Downloads<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/platform/community">
+				<span><!---->Community<!----></span>
+			</a>
+		</li><!---->
+		<li class="dropdown nav-bar-item" hidden="">
+			<button aria-expanded="false" class="dropdown-trigger nav-bar-button has-hover-underline" aria-controls="ax-25">
+				<span><!---->More<!----></span>
+				<span class="nav-bar-button-chevron" aria-hidden="true">
+					<span class="docon docon-chevron-down-light expanded-indicator"></span>
+				</span>
+			</button>
+			<ul class="dropdown-menu" id="ax-25" aria-label="More">
+				<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet"><!---->About<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn"><!---->Learn<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides"><!---->Architecture<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://docs.microsoft.com/dotnet"><!---->Docs<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/download"><!---->Downloads<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/platform/community"><!---->Community<!----></a>
+		</li>
+	<!---->
+			</ul>
+		</li><!---->
+				
+		<li class="nav-bar-item has-spacing">
+			<a class="button is-small is-primary is-outlined" href="https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro">
+				Get Started
+			</a>
+		</li>
+			</ul>
+		</nav>
+		<span class="nav-bar-spacer"></span>
+		
+			<div class="nav-bar-item nav-bar-search-form-item" id="ax-26" hidden="">
+				
+			<form class="is-flex" method="GET" id="searchForm" name="searchForm" role="search" aria-label="Search" aria-expanded="false" action="https://docs.microsoft.com/en-us/search/">
+					
+							<button class="nav-bar-button has-margin-extra-small tag" type="button" aria-label="Search filter is &quot;ASP.NET&quot;. Tap to remove.">
+								<span class="is-truncated"><!---->ASP.NET<!----></span>
+								<span class="icon">
+									<span class="docon docon-navigate-close" aria-hidden="true"></span>
+								</span>
+							</button>
+					<div class="autocomplete" data-bi-name="autocomplete"><!---->
+		<div class="control ">
+			<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="site-search-input" class="autocomplete-input input   is-full-width" type="search" name="search" aria-expanded="false" aria-owns="ax-27-listbox" aria-activedescendant="" placeholder="Search">
+
+			<span class="icon is-small is-left" aria-hidden="true" hidden="">
+				<span class="has-text-primary docon docon-undefined"></span>
+			</span>
+
+			<span class="autocomplete-loader loader has-text-primary" aria-hidden="true" hidden=""></span>
+		</div>
+
+		<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-27-listbox" hidden="">
+			
+		</ul><!----></div>
+					<!-- mobile safari will not dispatch submit event unless there's a submit button that is not display:none -->
+					<button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true"></button>
+					<input name="category" hidden="" value="All">
+					<input name="scope" hidden="" value="ASP.NET">
+					
+			</form>
+		
+			</div>
+			<div class="nav-bar-item ">
+				<button id="form-expander" class="nav-bar-button has-hover-underline has-margin-left-extra-small" aria-label="Search" aria-expanded="false" aria-controls="ax-26">
+						
+					<span class="is-hidden-mobile" aria-hidden="true"><!---->Search<!----></span>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-search"></span>
+					</span>
+	
+				</button>
+			</div>
+		<!----><!----></header></div>
+		<div class="content-header uhf-container has-padding has-default-focus" data-bi-name="content-header">
+		<nav class="has-padding-none-mobile" data-bi-name="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList" role="navigation" aria-label="Breadcrumb">
+			<ul id="page-breadcrumbs" class="breadcrumbs"><!---->
+		<!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/">
+				Docs
+			</a>
+		</li><!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/aspnet/">
+				ASP.<wbr>NET
+			</a>
+		</li><!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/aspnet/signalr/">
+				ASP.<wbr>NET SignalR
+			</a>
+		</li><!---->
+	<!----></ul>
+		</nav>
+		<div class="content-header-controls">
+			<button type="button" class="contents-button button" data-bi-name="contents-expand" aria-haspopup="true">
+				<span class="icon"><span class="docon docon-menu" aria-hidden="true"></span></span>
+				<span>Contents</span>
+			</button>
+		</div>
+		<div class="content-header-controls exit-focus">
+			<button type="button" class="ap-collapse-behavior ap-expanded button" data-bi-name="ap-collapse" aria-controls="action-panel">
+				<span class="icon"><span class="docon docon-exit-mode" aria-hidden="true"></span></span>
+				<span>Exit focus mode</span>
+			</button>
+		</div>
+		<div id="page-actions" class="is-flex-touch has-flex-justify-content-space-between-touch has-padding-none has-padding-none-mobile">
+			<ul class="action-list has-flex-justify-content-start-mobile is-flex is-flex-row has-flex-wrap">
+							<li><!---->
+		<button type="button" class="bookmark button is-text has-inner-focus is-small is-icon-only-touch">
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-single-bookmark"></span>
+			</span>
+			<span class="bookmark-status is-visually-hidden-touch is-hidden-portrait"><!---->Bookmark<!----></span>
+		</button><!----></li><li id="contenteditbtn">
+									<a href="https://github.com/aspnet/AspNetDocs/blob/master/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr.md" class="button is-text has-inner-focus is-icon-only-touch is-small" title="Edit This Document" data-bi-name="edit" data-original_content_git_url="https://github.com/aspnet/AspNetDocs/blob/live/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr.md" data-original_content_git_url_template="" data-pr_repo="" data-pr_branch="">
+									<span class="icon">
+										<span class="docon docon-edit-outline" aria-hidden="true"></span>
+									</span>
+									<span class="is-visually-hidden-touch is-hidden-portrait">Edit</span>
+								</a>
+							</li>
+				<li>
+<div class="sharing dropdown has-caret">
+	<button class="dropdown-trigger button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small is-icon-only-touch" aria-controls="sharing-menu" aria-expanded="false" title="Share This Document" data-bi-name="share">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-sharing"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Share</span>
+	</button>
+	<div class="dropdown-menu has-padding-small" id="sharing-menu">
+		<ul data-bi-name="share-links">
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-twitter" data-bi-name="twitter" href="https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-getting-started-with-signalr%3FWT.mc_id%3Dtwitter&amp;text=Tutorial%3A%20Real-time%20chat%20with%20SignalR%202%20%7C%20Microsoft%20Docs&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-getting-started-with-signalr%3FWT.mc_id%3Dtwitter">
+					<span class="icon">
+						<span class="docon docon-brand-twitter has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Twitter</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-linkedin" data-bi-name="linkedin" href="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-getting-started-with-signalr%3FWT.mc_id%3Dlinkedin">
+					<span class="icon">
+						<span class="docon docon-brand-linkedin has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>LinkedIn</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-facebook" data-bi-name="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-getting-started-with-signalr%3FWT.mc_id%3Dfacebook">
+					<span class="icon">
+						<span class="docon docon-brand-facebook has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Facebook</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-email" data-bi-name="email" href="mailto:?subject=%5BShared%20Article%5D%20Tutorial%3A%20Real-time%20chat%20with%20SignalR%202%20%7C%20Microsoft%20Docs&amp;body=Tutorial%3A%20Real-time%20chat%20with%20SignalR%202%20%7C%20Microsoft%20Docs%0A%0Ahttps%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Faspnet%2Fsignalr%2Foverview%2Fgetting-started%2Ftutorial-getting-started-with-signalr%3FWT.mc_id%3Demail">
+					<span class="icon">
+						<span class="docon docon-mail-message-fill has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Email</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>				</li>
+				<li>
+<div class="dropdown has-caret">
+	<button class="dropdown-trigger button is-text is-small is-icon-only-touch has-inner-focus" aria-controls="theme-menu" aria-expanded="false" title="Theme" data-bi-name="theme">
+		<span class="icon">
+			<span class="docon docon-sun" aria-hidden="true"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Theme</span>
+	</button>
+	<div class="dropdown-menu" id="theme-menu" role="menu">
+		<div class="theme-selector has-padding-small">
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start is-selected" data-theme-to="light" role="menuitem" aria-selected="true">
+					<span class="theme-light has-margin-right-small">
+						<span class="theme-selector-icon css-variable-support has-border is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+Light					</span>
+				</button>
+			</div>
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start" data-theme-to="dark" role="menuitem" aria-selected="false">
+					<span class="theme-dark has-margin-right-small">
+						<span class="has-border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+Dark					</span>
+				</button>
+			</div>
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start" data-theme-to="high-contrast" role="menuitem" aria-selected="false">
+					<span class="theme-high-contrast has-margin-right-small">
+						<span class="has-border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+High contrast					</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>				</li>
+				<li>
+					<a class="docs-sign-in auth-status-determined not-authenticated button is-text has-inner-focus has-text-primary is-small" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#">Sign in</a>
+					<div class="dropdown has-caret auth-status-determined authenticated">
+						<button class="dropdown-trigger button is-text has-inner-focus is-small is-icon-only-touch has-inner-focus" aria-label="Your Account" aria-controls="user-menu" aria-expanded="false">
+							<span class="icon" aria-hidden="true">
+								<span class="image">
+									<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+								</span>
+							</span>
+							<span class="is-truncated has-margin-left-small" data-profile-property="userName"></span>
+						</button>
+						<div class="dropdown-menu box" id="user-menu" role="menu">
+							<div class="media is-user-dir">
+								<div class="media-left">
+									<span class="image is-64x64" aria-hidden="true">
+										<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+									</span>
+								</div>
+								<div class="media-content">
+									<p class="title">
+										<span class="is-truncated" style="max-width: 200px" data-profile-property="userName"></span>
+									</p>
+									<p class="subtitle has-margin-bottom-none">
+										<span class="is-truncated" style="max-width: 200px" data-profile-property="upn"></span>
+									</p>
+									<ul class="is-unstyled has-margin-none has-margin-top-small">
+										<li><a href="https://docs.microsoft.com/profile" data-profile-property="profileUrl">Profile</a></li>
+										<li><a class="docs-sign-out" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#">Sign out</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<button type="button" class="contents-button button is-small is-text is-hidden-tablet has-inner-focus is-hidden-tablet" aria-label="Contents" data-bi-name="contents-expand-">
+				<span class="icon">
+					<span class="docon docon-editor-list-bullet" aria-hidden="true"></span>
+				</span>
+				<span>Contents</span>
+			</button>
+		</div>
+	</div>
+
+		<div id="banner-holder" class="has-default-focus has-overflow-hidden">
+		</div>
+
+	<div id="disclaimer-holder" class="has-overflow-hidden has-default-focus"></div>
+	</div>
+
+	<div class="mainContainer  uhf-container has-top-padding  has-default-focus" data-bi-name="body">
+
+		<div class="columns has-large-gaps is-gapless-mobile ">
+
+			<div id="left-container" class="left-container is-hidden-mobile column is-one-third-tablet is-one-quarter-desktop">
+				<nav id="affixed-left-container" class="is-fixed is-flex is-flex-column" role="navigation" aria-label="Primary" data-bi-name="left toc" style="width: 306.2px; top: 24px; bottom: 24px;"><form action="javascript:" role="search" aria-label="Search" class="is-full-width has-margin-bottom-small"><label class="visually-hidden" for="ax-10">Search</label><div class="autocomplete is-block" data-bi-name="autocomplete"><!---->
+		<div class="control has-icons-left">
+			<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="ax-10" class="autocomplete-input input control has-icons-left is-small is-full-width" type="text" aria-expanded="false" aria-owns="ax-11-listbox" aria-activedescendant="" placeholder="Filter by title">
+
+			<span class="icon is-small is-left" aria-hidden="true">
+				<span class="has-text-primary docon docon-filter"></span>
+			</span>
+
+			<span class="autocomplete-loader loader has-text-primary" aria-hidden="true" hidden=""></span>
+		</div>
+
+		<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-11-listbox" hidden="">
+			
+		</ul><!----></div></form><ul class="tree is-vertically-scrollable has-flex-grow has-flex-shrink" role="tree" aria-label="Table of contents" data-bi-name="tree"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/#pivot=aspnet">ASP.<wbr>NET documentation</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/overview">ASP.<wbr>NET overview</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/tutorials">Tutorials</a></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web Forms</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>MVC</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web API</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web Pages</span></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/config-builder">Configuration Builders</a></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>SignalR</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/">SignalR</a></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Guidance</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/">Guidance</a></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Getting Started</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/">Getting Started</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/introduction-to-signalr">Introduction to SignalR</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/supported-platforms">Supported Platforms</a></li><li role="none"><a class="tree-item is-leaf is-selected" role="treeitem" tabindex="0" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr">Real-time chat with SignalR 2</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr-and-mvc">Real-time chat with SignalR 2 and MVC 5</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-high-frequency-realtime-with-signalr">High-frequency real-time with SignalR 2</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-server-broadcast-with-signalr">Server Broadcast with SignalR 2</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/real-time-web-applications-with-signalr">Hands On Lab: Real-Time Web Applications with SignalR</a></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Guide to the API</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Testing and Debugging</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Security</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Performance</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Deployment and Hosting</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Advanced</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Releases</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Older Versions</span></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Videos</span></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Mobile</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Single Page Application</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web<wbr>Hooks</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Visual Studio 2017</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Visual Studio 2013</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Visual Studio 2012</span></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/entity-framework">Entity Framework</a></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Identity</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Ajax</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Web Development Best Practices</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>OWIN and Katana</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Whitepapers</span></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/aspnet/api-ref">API reference</a></li></ul><a class="button is-small is-text has-flex-justify-content-start has-inner-focus has-margin-top-small has-border-top has-border-bottom has-flex-shrink-none" href="https://docs.microsoft.com/en-us/aspnet/opbuildpdf/toc.pdf?branch=live" data-bi-name="downloadPdf"><!---->
+		<span class="icon is-size-8 has-text-subtle">
+			<span aria-hidden="true" class="docon docon-arrow-down"></span>
+		</span>
+		<span><!---->Download PDF<!----></span><!----></a></nav>
+			</div>
+
+			<section class="primary-holder column is-two-thirds-tablet is-three-quarters-desktop">
+				<div class="columns is-gapless-mobile has-large-gaps ">
+
+
+				<div id="main-column" class="column  is-full is-four-fifths-desktop ">
+
+					<main id="main" role="main" class="content " data-bi-name="content" lang="en-us" dir="ltr">
+
+
+
+						<h1 id="tutorial-real-time-chat-with-signalr-2" sourcefile="signalr/overview/getting-started/tutorial-getting-started-with-signalr.md" sourcestartlinenumber="14">Tutorial: Real-time chat with SignalR 2</h1>
+
+						<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+							<li class="displayDate">
+								<time role="presentation" datetime="2019-01-22T00:00:00.000Z" data-article-date-source="ms.date">01/21/2019</time>
+							</li>
+								<li class="readingTime">6 minutes to read</li>
+							<li class="contributors-holder">
+								<a class="has-inner-focus" href="https://github.com/aspnet/AspNetDocs/blob/master/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr.md" title="11 Contributors" aria-label="11 Contributors">
+									<ul class="contributors" data-bi-name="contributors" aria-hidden="true">
+												<li><img src="./TutorialReqlTimeChatWithSignalR_files/bradygaster.png" data-src="https://github.com/bradygaster.png?size=32" role="presentation"></li>
+												<li><img src="./TutorialReqlTimeChatWithSignalR_files/mwht.png" data-src="https://github.com/mwht.png?size=32" role="presentation"></li>
+												<li><img src="./TutorialReqlTimeChatWithSignalR_files/nschonni.png" data-src="https://github.com/nschonni.png?size=32" role="presentation"></li>
+												<li><img src="./TutorialReqlTimeChatWithSignalR_files/tdykstra.png" data-src="https://github.com/tdykstra.png?size=32" role="presentation"></li>
+												<li><img src="./TutorialReqlTimeChatWithSignalR_files/john-par.png" data-src="https://github.com/john-par.png?size=32" role="presentation"></li>
+										<li><span class="is-size-8 has-text-subtle">+6</span></li>
+									</ul>
+								</a>
+							</li>
+
+						</ul>
+
+						<nav id="center-doc-outline" class="doc-outline is-hidden-desktop" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+							<h3>In this article</h3>
+						<ol><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#prerequisites">Prerequisites</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#set-up-the-project">Set up the Project</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#run-the-sample">Run the Sample</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#examine-the-code">Examine the Code</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#get-the-code">Get the code</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#additional-resources">Additional resources</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#next-steps">Next steps</a></li></ol></nav>
+
+
+						<!-- <content> -->
+							
+<p>This tutorial shows you how to use SignalR to create a real-time chat application. You add SignalR to an empty ASP.NET web application and create an HTML page to send and display messages.</p>
+<p>In this tutorial, you:</p>
+<div class="checklist">
+<ul>
+<li>Set up the project</li>
+<li>Run the sample</li>
+<li>Examine the code</li>
+</ul>
+</div>
+<div class="alert is-warning">
+<p class="alert-title"><span class="docon docon-status-warning-outline" aria-hidden="true"></span> Warning</p>
+<p>This documentation isn't for the latest version of SignalR. Take a look at <a href="https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction" data-linktype="absolute-path">ASP.NET Core SignalR</a>.</p>
+</div>
+<h2 id="prerequisites">Prerequisites<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#prerequisites" aria-labelledby="prerequisites"></a></h2>
+<ul>
+<li><a href="https://visualstudio.microsoft.com/downloads/" data-linktype="external">Visual Studio 2017</a> with the <strong>ASP.NET and web development</strong> workload.</li>
+</ul>
+<h2 id="set-up-the-project">Set up the Project<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#set-up-the-project" aria-labelledby="set-up-the-project"></a></h2>
+<p>This section shows how to use Visual Studio 2017 and SignalR 2 to create an empty ASP.NET web application, add SignalR, and create the chat application.</p>
+<ol>
+<li><p>In Visual Studio, create an ASP.NET Web Application.</p>
+<p><img src="./TutorialReqlTimeChatWithSignalR_files/image2.png" alt="Create web" data-linktype="relative-path"></p>
+</li>
+<li><p>In the <strong>New ASP.NET Project - SignalRChat</strong> window, leave <strong>Empty</strong> selected and select <strong>OK</strong>.</p>
+</li>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>New Item</strong>.</p>
+</li>
+<li><p>In <strong>Add New Item - SignalRChat</strong>, select <strong>Installed</strong> &gt; <strong>Visual C#</strong> &gt; <strong>Web</strong> &gt; <strong>SignalR</strong>  and then select <strong>SignalR Hub Class (v2)</strong>.</p>
+</li>
+<li><p>Name the class <em>ChatHub</em> and add it to the project.</p>
+<p>This step creates the <em>ChatHub.cs</em> class file and adds a set of script files and assembly references that support SignalR to the project.</p>
+</li>
+<li><p>Replace the code in the new <em>ChatHub.cs</em> class file with this code:</p>
+<div class="codeHeader" id="code-try-0" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="using System;
+using System.Web;
+using Microsoft.AspNet.SignalR;
+namespace SignalRChat
+{
+    public class ChatHub : Hub
+    {
+        public void Send(string name, string message)
+        {
+            // Call the broadcastMessage method to update clients.
+            Clients.All.broadcastMessage(name, message);
+        }
+    }
+}
+"><span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Web;
+<span class="hljs-keyword">using</span> Microsoft.AspNet.SignalR;
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">SignalRChat</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ChatHub</span> : <span class="hljs-title">Hub</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Send</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> name, <span class="hljs-keyword">string</span> message</span>)</span>
+        {
+            <span class="hljs-comment">// Call the broadcastMessage method to update clients.</span>
+            Clients.All.broadcastMessage(name, message);
+        }
+    }
+}
+</code></pre></li>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>New Item</strong>.</p>
+</li>
+<li><p>In <strong>Add New Item - SignalRChat</strong> select <strong>Installed</strong> &gt; <strong>Visual C#</strong> &gt; <strong>Web</strong>  and then select <strong>OWIN Startup Class</strong>.</p>
+</li>
+<li><p>Name the class <em>Startup</em> and add it to the project.</p>
+</li>
+<li><p>Replace the default code in <em>Startup</em> class with this code:</p>
+<div class="codeHeader" id="code-try-1" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="using Microsoft.Owin;
+using Owin;
+[assembly: OwinStartup(typeof(SignalRChat.Startup))]
+namespace SignalRChat
+{
+    public class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            // Any connection or hub wire up and configuration should go here
+            app.MapSignalR();
+        }
+    }
+}
+"><span class="hljs-keyword">using</span> Microsoft.Owin;
+<span class="hljs-keyword">using</span> Owin;
+[<span class="hljs-meta">assembly: OwinStartup(typeof(SignalRChat.Startup))</span>]
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">SignalRChat</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Startup</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Configuration</span>(<span class="hljs-params">IAppBuilder app</span>)</span>
+        {
+            <span class="hljs-comment">// Any connection or hub wire up and configuration should go here</span>
+            app.MapSignalR();
+        }
+    }
+}
+</code></pre></li>
+<li><p>In <strong>Solution Explorer</strong>, right-click the project and select <strong>Add</strong> &gt; <strong>HTML Page</strong>.</p>
+</li>
+<li><p>Name the new page <em>index</em> and select <strong>OK</strong>.</p>
+</li>
+<li><p>In <strong>Solution Explorer</strong>, right-click the HTML page you created and select <strong>Set as Start Page</strong>.</p>
+</li>
+<li><p>Replace the default code in the HTML page with this code:</p>
+<div class="codeHeader" id="code-try-2" data-bi-name="code-header"><span class="language">HTML</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-html" name="Main" data-author-content="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;SignalR Simple Chat&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        .container {
+            background-color: #99CCFF;
+            border: thick solid #808080;
+            padding: 20px;
+            margin: 20px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;input type=&quot;text&quot; id=&quot;message&quot; /&gt;
+        &lt;input type=&quot;button&quot; id=&quot;sendmessage&quot; value=&quot;Send&quot; /&gt;
+        &lt;input type=&quot;hidden&quot; id=&quot;displayname&quot; /&gt;
+        &lt;ul id=&quot;discussion&quot;&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;!--Script references. --&gt;
+    &lt;!--Reference the jQuery library. --&gt;
+    &lt;script src=&quot;Scripts/jquery-3.1.1.min.js&quot; &gt;&lt;/script&gt;
+    &lt;!--Reference the SignalR library. --&gt;
+    &lt;script src=&quot;Scripts/jquery.signalR-2.2.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;!--Reference the autogenerated SignalR hub script. --&gt;
+    &lt;script src=&quot;signalr/hubs&quot;&gt;&lt;/script&gt;
+    &lt;!--Add script to update the page and send messages.--&gt; 
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        $(function () {
+            // Declare a proxy to reference the hub. 
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call to broadcast messages.
+            chat.client.broadcastMessage = function (name, message) {
+                // Html encode display name and message. 
+                var encodedName = $(&#39;&lt;div /&gt;&#39;).text(name).html();
+                var encodedMsg = $(&#39;&lt;div /&gt;&#39;).text(message).html();
+                // Add the message to the page. 
+                $(&#39;#discussion&#39;).append(&#39;&lt;li&gt;&lt;strong&gt;&#39; + encodedName
+                    + &#39;&lt;/strong&gt;:&amp;nbsp;&amp;nbsp;&#39; + encodedMsg + &#39;&lt;/li&gt;&#39;);
+            };
+            // Get the user name and store it to prepend to messages.
+            $(&#39;#displayname&#39;).val(prompt(&#39;Enter your name:&#39;, &#39;&#39;));
+            // Set initial focus to message input box.  
+            $(&#39;#message&#39;).focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $(&#39;#sendmessage&#39;).click(function () {
+                    // Call the Send method on the hub. 
+                    chat.server.send($(&#39;#displayname&#39;).val(), $(&#39;#message&#39;).val());
+                    // Clear text box and reset focus for next comment. 
+                    $(&#39;#message&#39;).val(&#39;&#39;).focus();
+                });
+            });
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>SignalR Simple Chat<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span>&gt;</span><span class="css">
+        <span class="hljs-selector-class">.container</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#99CCFF</span>;
+            <span class="hljs-attribute">border</span>: thick solid <span class="hljs-number">#808080</span>;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">20px</span>;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"message"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"sendmessage"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"Send"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"hidden"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"displayname"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"discussion"</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--Script references. --&gt;</span>
+    <span class="hljs-comment">&lt;!--Reference the jQuery library. --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"Scripts/jquery-3.1.1.min.js"</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--Reference the SignalR library. --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"Scripts/jquery.signalR-2.2.1.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--Reference the autogenerated SignalR hub script. --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"signalr/hubs"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--Add script to update the page and send messages.--&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="cs">
+        $(function () {
+            <span class="hljs-comment">// Declare a proxy to reference the hub. </span>
+            <span class="hljs-keyword">var</span> chat = $.connection.chatHub;
+            <span class="hljs-comment">// Create a function that the hub can call to broadcast messages.</span>
+            chat.client.broadcastMessage = function (name, message) {
+                <span class="hljs-comment">// Html encode display name and message. </span>
+                <span class="hljs-keyword">var</span> encodedName = $(<span class="hljs-string">'&lt;div /&gt;'</span>).text(name).html();
+                <span class="hljs-keyword">var</span> encodedMsg = $(<span class="hljs-string">'&lt;div /&gt;'</span>).text(message).html();
+                <span class="hljs-comment">// Add the message to the page. </span>
+                $(<span class="hljs-string">'#discussion'</span>).append(<span class="hljs-string">'&lt;li&gt;&lt;strong&gt;'</span> + encodedName
+                    + <span class="hljs-string">'&lt;/strong&gt;:&amp;nbsp;&amp;nbsp;'</span> + encodedMsg + <span class="hljs-string">'&lt;/li&gt;'</span>);
+            };
+            <span class="hljs-comment">// Get the user name and store it to prepend to messages.</span>
+            $(<span class="hljs-string">'#displayname'</span>).val(prompt(<span class="hljs-string">'Enter your name:'</span>, <span class="hljs-string">''</span>));
+            <span class="hljs-comment">// Set initial focus to message input box.  </span>
+            $(<span class="hljs-string">'#message'</span>).focus();
+            <span class="hljs-comment">// Start the connection.</span>
+            $.connection.hub.start().done(function () {
+                $(<span class="hljs-string">'#sendmessage'</span>).click(function () {
+                    <span class="hljs-comment">// Call the Send method on the hub. </span>
+                    chat.server.send($(<span class="hljs-string">'#displayname'</span>).val(), $(<span class="hljs-string">'#message'</span>).val());
+                    <span class="hljs-comment">// Clear text box and reset focus for next comment. </span>
+                    $(<span class="hljs-string">'#message'</span>).val(<span class="hljs-string">''</span>).focus();
+                });
+            });
+        });
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre></li>
+<li><p>In <strong>Solution Explorer</strong>, expand <strong>Scripts</strong>.</p>
+<p>Script libraries for jQuery and SignalR are visible in the project.</p>
+<div class="alert is-primary">
+<p class="alert-title"><span class="docon docon-status-info-outline" aria-hidden="true"></span> Important</p>
+<p>The package manager may have installed a later version of the SignalR scripts.</p>
+</div>
+</li>
+<li><p>Check that the script references in the code block correspond to the versions of the script files in the project.</p>
+<p>Script references from the original code block:</p>
+<div class="codeHeader" id="code-try-3" data-bi-name="code-header"><span class="language">HTML</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-html" data-author-content="&lt;!--Script references. --&gt;
+&lt;!--Reference the jQuery library. --&gt;
+&lt;script src=&quot;Scripts/jquery-3.1.1.min.js&quot; &gt;&lt;/script&gt;
+&lt;!--Reference the SignalR library. --&gt;
+&lt;script src=&quot;Scripts/jquery.signalR-2.2.1.min.js&quot;&gt;&lt;/script&gt;
+"><span class="hljs-comment">&lt;!--Script references. --&gt;</span>
+<span class="hljs-comment">&lt;!--Reference the jQuery library. --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"Scripts/jquery-3.1.1.min.js"</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-comment">&lt;!--Reference the SignalR library. --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"Scripts/jquery.signalR-2.2.1.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+</li>
+<li><p>If they don't match, update the <em>.html</em> file.</p>
+</li>
+<li><p>From the menu bar, select <strong>File</strong> &gt; <strong>Save All</strong>.</p>
+</li>
+</ol>
+<h2 id="run-the-sample">Run the Sample<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#run-the-sample" aria-labelledby="run-the-sample"></a></h2>
+<ol>
+<li><p>In the toolbar, turn on <strong>Script Debugging</strong> and then select the play button to run the sample in Debug mode.</p>
+<p><img src="./TutorialReqlTimeChatWithSignalR_files/image3.png" alt="Enter user name" data-linktype="relative-path"></p>
+</li>
+<li><p>When the browser opens, enter a name for your chat identity.</p>
+</li>
+<li><p>Copy the URL from the browser, open two other browsers, and paste the URLs into the address bars.</p>
+</li>
+<li><p>In each browser, enter a unique name.</p>
+</li>
+<li><p>Now, add a comment and select <strong>Send</strong>. Repeat that in the other browsers. The comments appear in real-time.</p>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline" aria-hidden="true"></span> Note</p>
+<p>This simple chat application does not maintain the discussion context on the server. The hub broadcasts comments to all current users. Users who join the chat later will see messages added from the time they join.</p>
+</div>
+<p>See how the chat application runs in three different browsers. When Tom, Anand, and Susan send messages, all browsers update in real time:</p>
+<p><img src="./TutorialReqlTimeChatWithSignalR_files/image4.png" alt="All three browsers display the same chat history" data-linktype="relative-path"></p>
+</li>
+<li><p>In <strong>Solution Explorer</strong>, inspect the <strong>Script Documents</strong> node for the running application. There's a script file named <em>hubs</em> that the SignalR library generates at runtime. This file manages the communication between jQuery script and server-side code.</p>
+<p><img src="./TutorialReqlTimeChatWithSignalR_files/image5.png" alt="autogenerated hubs script in the Script Documents node" data-linktype="relative-path"></p>
+</li>
+</ol>
+<h2 id="examine-the-code">Examine the Code<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#examine-the-code" aria-labelledby="examine-the-code"></a></h2>
+<p>The SignalRChat application demonstrates two basic SignalR development tasks. It shows you how to create a hub. The server uses that hub as the main coordination object. The hub uses the SignalR jQuery library to send and receive messages.</p>
+<h3 id="signalr-hubs-in-the-chathubcs">SignalR Hubs in the ChatHub.cs<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#signalr-hubs-in-the-chathubcs" aria-labelledby="signalr-hubs-in-the-chathubcs"></a></h3>
+<p>In the code sample above, the <code>ChatHub</code> class derives from the <code>Microsoft.AspNet.SignalR.Hub</code> class. Deriving from the <code>Hub</code> class is a useful way to build a SignalR application. You can create public methods on your hub class and then use those methods by calling them from scripts in a web page.</p>
+<p>In the chat code, clients call the <code>ChatHub.Send</code> method to send a new message. The hub then sends the message to all clients by calling <code>Clients.All.broadcastMessage</code>.</p>
+<p>The <code>Send</code> method demonstrates several hub concepts:</p>
+<ul>
+<li><p>Declare public methods on a hub so that clients can call them.</p>
+</li>
+<li><p>Use the <code>Microsoft.AspNet.SignalR.Hub.Clients</code> dynamic property to communicate with all clients connected to this hub.</p>
+</li>
+<li><p>Call a function on the client (like the <code>broadcastMessage</code> function) to update clients.</p>
+<div class="codeHeader" id="code-try-4" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="Main" data-author-content="public class ChatHub : Hub
+{
+    public void Send(string name, string message)
+    {
+        // Call the broadcastMessage method to update clients.
+        Clients.All.broadcastMessage(name, message);
+    }
+}
+"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ChatHub</span> : <span class="hljs-title">Hub</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Send</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> name, <span class="hljs-keyword">string</span> message</span>)</span>
+    {
+        <span class="hljs-comment">// Call the broadcastMessage method to update clients.</span>
+        Clients.All.broadcastMessage(name, message);
+    }
+}
+</code></pre></li>
+</ul>
+<h3 id="signalr-and-jquery-in-the-indexhtml">SignalR and jQuery in the index.html<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#signalr-and-jquery-in-the-indexhtml" aria-labelledby="signalr-and-jquery-in-the-indexhtml"></a></h3>
+<p>The <em>index.html</em> page in the code sample shows how to use the SignalR jQuery library to communicate with a SignalR hub. The code carries out many important tasks. It declares a proxy to reference the hub, declares a function that the server can call to push content to clients, and it starts a connection to send messages to the hub.</p>
+<div class="codeHeader" id="code-try-5" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="var chat = $.connection.chatHub;
+"><span class="hljs-keyword">var</span> chat = $.connection.chatHub;
+</code></pre>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline" aria-hidden="true"></span> Note</p>
+<p>In JavaScript the reference to the server class and its members has to be camelCase. The code sample references the C# <em>ChatHub</em> class in JavaScript as <code>chatHub</code>.</p>
+</div>
+<p>In this code block, you create a callback function in the script.</p>
+<div class="codeHeader" id="code-try-6" data-bi-name="code-header"><span class="language">HTML</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-html" name="Main" data-author-content="chat.client.broadcastMessage = function (name, message) {
+        // Html encode display name and message. 
+        var encodedName = $(&#39;&lt;div /&gt;&#39;).text(name).html();
+        var encodedMsg = $(&#39;&lt;div /&gt;&#39;).text(message).html();
+        // Add the message to the page. 
+        $(&#39;#discussion&#39;).append(&#39;&lt;li&gt;&lt;strong&gt;&#39; + encodedName
+            + &#39;&lt;/strong&gt;:&amp;nbsp;&amp;nbsp;&#39; + encodedMsg + &#39;&lt;/li&gt;&#39;);
+    };
+">chat.client.broadcastMessage = function (name, message) {
+        // Html encode display name and message. 
+        var encodedName = $('<span class="hljs-tag">&lt;<span class="hljs-name">div</span> /&gt;</span>').text(name).html();
+        var encodedMsg = $('<span class="hljs-tag">&lt;<span class="hljs-name">div</span> /&gt;</span>').text(message).html();
+        // Add the message to the page. 
+        $('#discussion').append('<span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>' + encodedName
+            + '<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>:&amp;nbsp;&amp;nbsp;' + encodedMsg + '<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>');
+    };
+</code></pre>
+<p>The hub class on the server calls this function to push content updates to each client. The two lines that HTML-encode the content before displaying it are optional and show a good way to prevent script injection.</p>
+<p>This code opens a connection with the hub.</p>
+<div class="codeHeader" id="code-try-7" data-bi-name="code-header"><span class="language">JavaScript</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-javascript" name="Main" data-author-content="$.connection.hub.start().done(function () {
+        $(&#39;#sendmessage&#39;).click(function () {
+            // Call the Send method on the hub. 
+            chat.server.send($(&#39;#displayname&#39;).val(), $(&#39;#message&#39;).val());
+            // Clear text box and reset focus for next comment. 
+            $(&#39;#message&#39;).val(&#39;&#39;).focus();
+        });
+    });
+">$.connection.hub.start().done(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        $(<span class="hljs-string">'#sendmessage'</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            <span class="hljs-comment">// Call the Send method on the hub. </span>
+            chat.server.send($(<span class="hljs-string">'#displayname'</span>).val(), $(<span class="hljs-string">'#message'</span>).val());
+            <span class="hljs-comment">// Clear text box and reset focus for next comment. </span>
+            $(<span class="hljs-string">'#message'</span>).val(<span class="hljs-string">''</span>).focus();
+        });
+    });
+</code></pre>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline" aria-hidden="true"></span> Note</p>
+<p>This approach ensures that the code establishes a connection before the event handler executes.</p>
+</div>
+<p>The code starts the connection and then passes it a function to handle the click event on the <strong>Send</strong> button in the HTML page.</p>
+<h2 id="get-the-code">Get the code<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#get-the-code" aria-labelledby="get-the-code"></a></h2>
+<p><a href="http://code.msdn.microsoft.com/SignalR-Getting-Started-b9d18aa9" data-linktype="external">Download Completed Project</a></p>
+<h2 id="additional-resources">Additional resources<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#additional-resources" aria-labelledby="additional-resources"></a></h2>
+<p>For more about SignalR, see the following resources:</p>
+<ul>
+<li><p><a href="http://signalr.net/" data-linktype="external">SignalR Project</a></p>
+</li>
+<li><p><a href="https://github.com/SignalR/SignalR" data-linktype="external">SignalR Github and Samples</a></p>
+</li>
+<li><p><a href="https://github.com/SignalR/SignalR/wiki" data-linktype="external">SignalR Wiki</a></p>
+</li>
+</ul>
+<h2 id="next-steps">Next steps<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#next-steps" aria-labelledby="next-steps"></a></h2>
+<p>In this tutorial you:</p>
+<div class="checklist">
+<ul>
+<li>Set up the project</li>
+<li>Ran the sample</li>
+<li>Examined the code</li>
+</ul>
+</div>
+<p>Advance to the next article to learn how to use SignalR and MVC 5.</p>
+<div class="nextstepaction">
+<p><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr-and-mvc" data-linktype="relative-path" class="button is-primary has-text-wrap">SignalR 2 and MVC 5</a></p>
+</div>
+
+						<!-- </content> -->
+
+						</main>
+
+						<!-- rating mobile section -->
+								<div class="is-hidden-desktop has-border-top has-margin-top-large has-padding-top-small">
+<div data-bi-name="rating" class="feedback-verbatim has-border-bottom has-padding-bottom-small has-margin-bottom-small">
+	<div class="binary-rating">
+		<div class="binary-rating-buttons">
+			<h3 class="has-text-weight-semibold has-margin-top-none has-margin-bottom-small">Is this page helpful?</h3>
+			<div>
+				<button class="thumb-rating like has-inner-focus has-padding-left-extra-small has-padding-right-extra-small" title="Yes" data-bi-name="rating-yes" data-bi-sat="1">
+					<span class="icon docon docon-like" aria-hidden="true"></span><span>Yes</span>
+				</button>
+				<button class="thumb-rating dislike has-inner-focus has-padding-none has-padding-right-extra-small" title="No" data-bi-name="rating-no" data-bi-sat="0" aria-expanded="false" aria-haspopup="true" aria-controls="rating-feedback">
+					<span class="icon docon docon-dislike" aria-hidden="true"></span><span>No</span>
+				</button>
+			</div>
+		</div>
+		<form class="feedback-verbatim-form is-hidden">
+			<div class="verbatim-textarea box is-relative has-box-shadow-none has-border has-margin-top-small has-padding-extra-small is-size-8">
+				<label for="rating-feedback-mobile" class="visually-hidden">Any additional feedback?</label>
+				<textarea id="rating-feedback-mobile" rows="4" maxlength="999" placeholder="Any additional feedback?" required="" class="textarea has-border-none has-box-shadow-none has-inner-focus"></textarea>
+			</div>
+			<div class="buttons is-right has-margin-top-medium has-margin-right-extra-small">
+				<button class="skip-rating button is-text is-link is-small" type="button">Skip</button>
+				<button disabled="" class="submit-rating button is-primary is-small" type="submit" data-bi-name="rating-verbatim">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div class="thankyou-rating is-hidden">
+		<p>Thank you.</p>
+	</div>
+</div>								</div>
+						<!-- end rating mobile section -->
+
+						<!-- feedback section -->
+
+
+
+
+
+						<!-- end feedback section -->
+
+						<div class="footerContainer is-visible-interactive has-default-focus ">
+<footer id="footer-interactive" data-bi-name="footer" class="footer-layout">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="https://docs.microsoft.com/en-us/locale?target=https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small" aria-hidden="true"></span><span class="local-selector-link-text has-inner-focus">English (United States)</span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>
+						</div>
+					</div>
+
+					<div id="page-actions" class="right-container column is-one-quarter is-one-fifth-desktop is-hidden-mobile is-hidden-tablet-only" data-bi-name="pageactions" role="complementary" aria-label="Page Actions">
+							<div id="affixed-right-container" class="doc-outline is-fixed is-vertically-scrollable" style="width: 164.512px; top: 24px; bottom: 24px;">
+<div data-bi-name="rating" class="feedback-verbatim has-border-bottom has-padding-bottom-small has-margin-bottom-small">
+	<div class="binary-rating">
+		<div class="binary-rating-buttons">
+			<h3 class="has-text-weight-semibold has-margin-top-none has-margin-bottom-small">Is this page helpful?</h3>
+			<div>
+				<button class="thumb-rating like has-inner-focus has-padding-left-extra-small has-padding-right-extra-small" title="Yes" data-bi-name="rating-yes" data-bi-sat="1">
+					<span class="icon docon docon-like" aria-hidden="true"></span><span>Yes</span>
+				</button>
+				<button class="thumb-rating dislike has-inner-focus has-padding-none has-padding-right-extra-small" title="No" data-bi-name="rating-no" data-bi-sat="0" aria-expanded="false" aria-haspopup="true" aria-controls="rating-feedback">
+					<span class="icon docon docon-dislike" aria-hidden="true"></span><span>No</span>
+				</button>
+			</div>
+		</div>
+		<form class="feedback-verbatim-form is-hidden">
+			<div class="verbatim-textarea box is-relative has-box-shadow-none has-border has-margin-top-small has-padding-extra-small is-size-8">
+				<label for="rating-feedback-mobile" class="visually-hidden">Any additional feedback?</label>
+				<textarea id="rating-feedback-mobile" rows="4" maxlength="999" placeholder="Any additional feedback?" required="" class="textarea has-border-none has-box-shadow-none has-inner-focus"></textarea>
+			</div>
+			<div class="buttons is-right has-margin-top-medium has-margin-right-extra-small">
+				<button class="skip-rating button is-text is-link is-small" type="button">Skip</button>
+				<button disabled="" class="submit-rating button is-primary is-small" type="submit" data-bi-name="rating-verbatim">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div class="thankyou-rating is-hidden">
+		<p>Thank you.</p>
+	</div>
+</div>								<nav id="side-doc-outline" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+									<h3>In this article</h3>
+								<ol><li class=""><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#prerequisites">Prerequisites</a></li><li class="selected"><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#set-up-the-project">Set up the Project</a></li><li class=""><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#run-the-sample">Run the Sample</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#examine-the-code">Examine the Code</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#get-the-code">Get the code</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#additional-resources">Additional resources</a></li><li><a href="https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr#next-steps">Next steps</a></li></ol></nav>
+							</div>
+					</div>
+
+					<!--end of div.columns -->
+				</div>
+
+			<!--end of .primary-holder -->
+			</section>
+
+			<aside id="interactive-container" class="interactive-container is-visible-interactive column has-body-background-dark ">
+			</aside>
+		</div>
+
+		<!--end of .mainContainer -->
+	</div>
+
+	<div id="openFeedbackContainer" class="openfeedback-container"></div>
+
+	<div class="footerContainer has-default-focus is-hidden-interactive ">
+<footer id="footer" data-bi-name="footer" class="footer-layout uhf-container has-padding" role="contentinfo">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="https://docs.microsoft.com/en-us/locale?target=https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/tutorial-getting-started-with-signalr" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small" aria-hidden="true"></span><span class="local-selector-link-text">English (United States)</span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>
+	</div>
+
+	<div id="action-panel" role="region" aria-label="Action Panel" class="action-panel has-default-focus" tabindex="-1"></div>
+
+
+</body></html>

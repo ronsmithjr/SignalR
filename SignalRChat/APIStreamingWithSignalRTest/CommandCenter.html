@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>SignalR Message</title>
+</head>
+<body>
+    <div>
+        <ul id="discussion"></ul>
+    </div>
+    <!--<script src="Scripts/jquery-1.6.4.min.js"></script>-->
+    <script src="Scripts/jquery-2.2.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.0.0.js"></script>
+    <!--<script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.4.1.min.js"></script>-->
+    <script src="/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            var chat = $.connection.requestLog;
+            $.connection.hub.start().done(function () {
+            });
+            chat.client.postToClient = function (data) {
+                $('#discussion').append('Message' + data + '<br />');
+            };
+        });
+    </script>
+</body>
+</html>
